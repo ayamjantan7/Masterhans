@@ -1,17 +1,20 @@
-// ==================== EFEK RIPPLE (lingkaran saat klik) ====================
+// ==================== EFEK RIPPLE (lingkaran kecil seperti shadow click) ====================
 function createRipple(event) {
     const ripple = document.createElement('div');
     ripple.className = 'ripple';
-    const size = Math.max(window.innerWidth, window.innerHeight) * 0.6;
-    ripple.style.width = ripple.style.height = `${size}px`;
+    // Ukuran kecil: antara 30px - 70px
+    const size = Math.random() * 40 + 30;
+    ripple.style.width = `${size}px`;
+    ripple.style.height = `${size}px`;
     ripple.style.left = `${event.clientX - size/2}px`;
     ripple.style.top = `${event.clientY - size/2}px`;
     document.body.appendChild(ripple);
-    setTimeout(() => ripple.remove(), 500);
+    setTimeout(() => ripple.remove(), 350);
 }
 
 document.addEventListener('click', function(e) {
-    if(!e.target.closest('.menu-controls') && !e.target.closest('.submenu-controls')) {
+    // Jangan buat ripple di tombol kontrol biar tidak terlalu ramai
+    if(!e.target.closest('.menu-controls') && !e.target.closest('.submenu-controls') && !e.target.closest('button')) {
         createRipple(e);
     }
 });
