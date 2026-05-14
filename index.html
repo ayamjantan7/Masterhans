@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blue Tosca Premium - Multi Submenu</title>
+    <title>MASTER HANS - Private Panel</title>
     <style>
         * {
             margin: 0;
@@ -96,6 +96,7 @@
             color: #b2f0e8;
             margin-bottom: 25px;
             font-size: 28px;
+            letter-spacing: 2px;
         }
 
         .login-box input {
@@ -371,8 +372,8 @@
 
 <div id="loginScreen">
     <div class="login-box">
-        <h2>✨ MASTER HANS ✨</h2>
-        <input type="text" id="userId" placeholder="ID">
+        <h2>👑 MASTER HANS 👑</h2>
+        <input type="text" id="userId" placeholder="Username" autocomplete="off">
         <input type="password" id="userPass" placeholder="Password">
         <button onclick="doLogin()">🔓 MASUK</button>
         <div id="loginError" class="error"></div>
@@ -393,8 +394,8 @@
                 <textarea id="mainEditor" placeholder="Pilih menu di samping kiri..."></textarea>
             </div>
             <div>
-                <button onclick="saveData()">💾 Save</button>
-                <button onclick="undoData()">↩️ Undo</button>
+                <button onclick="saveData()">💾 SAVE</button>
+                <button onclick="undoData()">↩️ UNDO</button>
             </div>
         </div>
     </div>
@@ -402,14 +403,13 @@
 
 <script>
     // ==================== DATA STRUCTURE ====================
-    // Setiap menu bisa memiliki subitems (point-point kecil)
     let menus = [
         { 
             id: "notepad",
             display: "📝 Notepad", 
             type: "editor",
             content: "",
-            subitems: []  // point-point kecil di dalam Notepad
+            subitems: []
         },
         { 
             id: "hotkeys", 
@@ -428,7 +428,7 @@
         { 
             id: "daftar_akun", 
             display: "📂 Daftar Akun", 
-            type: "submenu_parent",
+            type: "editor",
             content: "",
             subitems: [
                 { id: "bank", display: "🔹 Akun Bank", content: "" },
@@ -439,23 +439,22 @@
     ];
     
     let currentMenu = null;
-    let currentSubmenu = null;  // point kecil yang sedang aktif
+    let currentSubmenu = null;
     let historyData = [];
     
     // ==================== SAVE & LOAD ====================
     function saveAllData() {
-        localStorage.setItem("multi_submenu_v1", JSON.stringify(menus));
+        localStorage.setItem("master_hans_data", JSON.stringify(menus));
     }
     
     function loadAllData() {
-        let saved = localStorage.getItem("multi_submenu_v1");
+        let saved = localStorage.getItem("master_hans_data");
         if(saved) {
             menus = JSON.parse(saved);
         }
-        // Pastikan setiap menu punya subitems
         menus.forEach(menu => {
             if(!menu.type) menu.type = "editor";
-            if(!menu.content) menu.content = "";
+            if(menu.content === undefined) menu.content = "";
             if(!menu.subitems) menu.subitems = [];
             if(menu.type === "todo" && typeof menu.content !== "string") {
                 menu.content = JSON.stringify(menu.content || []);
@@ -472,13 +471,13 @@
     // ==================== RENDER SIDEBAR ====================
     function renderSidebar() {
         const container = document.getElementById("menuContainer");
+        if(!container) return;
         container.innerHTML = "";
         
         menus.forEach((menu, idx) => {
             const menuDiv = document.createElement("div");
             menuDiv.className = "menu-item";
             
-            // Header menu utama
             const header = document.createElement("div");
             header.className = "menu-header";
             
@@ -534,7 +533,6 @@
             submenuDiv.className = "submenu";
             submenuDiv.id = `submenu_${idx}`;
             
-            // Render subitems (point kecil) jika ada
             if(menu.subitems && menu.subitems.length > 0) {
                 menu.subitems.forEach((sub, subIdx) => {
                     const subItem = document.createElement("div");
@@ -550,7 +548,7 @@
                     
                     const delSubBtn = document.createElement("button");
                     delSubBtn.innerHTML = "🗑️";
-                                    delSubBtn.onclick = (e) => {
+                    delSubBtn.onclick = (e) => {
                         e.stopPropagation();
                         if(confirm(`Hapus point "${sub.display}" dari menu ${menu.display}?`)) {
                             menu.subitems.splice(subIdx, 1);
@@ -558,7 +556,8 @@
                             renderSidebar();
                             if(currentSubmenu === sub) {
                                 currentSubmenu = null;
-                                document.getElementById("contentArea").innerHTML = "<div style='color:white; text-align:center; padding:40px;'>✨ Pilih menu atau point di samping kiri ✨</div>";
+                                const contentDiv = document.getElementById("contentArea");
+                                if(contentDiv) contentDiv.innerHTML = "<div style='color:white; text-align:center; padding:40px;'>✨ Pilih menu atau point di samping kiri ✨</div>";
                             }
                         }
                     };
@@ -570,7 +569,6 @@
                 });
             }
             
-            // Tombol tambah point kecil untuk menu ini
             const addSubBtn = document.createElement("div");
             addSubBtn.className = "add-submenu";
             addSubBtn.innerHTML = "+ Tambah Point Kecil";
@@ -579,7 +577,6 @@
             
             menuDiv.appendChild(submenuDiv);
             
-            // Event toggle submenu saat klik header
             header.onclick = (e) => {
                 if(e.target.closest('.menu-controls')) return;
                 submenuDiv.classList.toggle("open");
@@ -594,12 +591,12 @@
         });
     }
     
-    // ==================== BUKA MENU UTAMA ====================
     function openMainMenu(menu, idx) {
         currentMenu = menu;
         currentSubmenu = null;
         
         const contentDiv = document.getElementById("contentArea");
+        if(!contentDiv) return;
         
         if(menu.type === "editor") {
             contentDiv.innerHTML = `<textarea id="mainEditor" placeholder="✏️ Tulis catatan untuk ${menu.display}...">${menu.content || ""}</textarea>`;
@@ -612,16 +609,15 @@
         }
     }
     
-    // ==================== BUKA POINT KECIL (SUBMENU) ====================
     function openSubmenu(menu, subIdx) {
         currentMenu = menu;
         currentSubmenu = menu.subitems[subIdx];
         
         const contentDiv = document.getElementById("contentArea");
+        if(!contentDiv) return;
         contentDiv.innerHTML = `<textarea id="subEditor" placeholder="📝 Tulis catatan untuk ${currentSubmenu.display}...">${currentSubmenu.content || ""}</textarea>`;
     }
     
-    // ==================== RENDER TO DO LIST ====================
     function renderTodo(menu) {
         let todoList = [];
         try { todoList = JSON.parse(menu.content || "[]"); } catch(e) { todoList = []; }
@@ -664,7 +660,6 @@
         }
     }
     
-    // ==================== TAMBAH POINT KECIL (untuk SEMUA menu) ====================
     function tambahSubmenu(menu) {
         let nama = prompt(`Tambah point kecil di menu "${menu.display}":`, "🔹 Point Baru");
         if(nama && nama.trim()) {
@@ -680,7 +675,6 @@
         }
     }
     
-    // ==================== FUNGSI MOVE & DELETE MENU ====================
     function moveMenuUp(idx) {
         if(idx > 0) {
             [menus[idx-1], menus[idx]] = [menus[idx], menus[idx-1]];
@@ -705,7 +699,8 @@
             saveAllData();
             renderSidebar();
             if(currentMenu === menus[idx]) {
-                document.getElementById("contentArea").innerHTML = "<div style='color:white; text-align:center; padding:40px;'>🗑️ Menu telah dihapus</div>";
+                const contentDiv = document.getElementById("contentArea");
+                if(contentDiv) contentDiv.innerHTML = "<div style='color:white; text-align:center; padding:40px;'>🗑️ Menu telah dihapus</div>";
                 currentMenu = null;
             }
         }
@@ -726,7 +721,6 @@
         }
     }
     
-    // ==================== SAVE & UNDO ====================
     function saveData() {
         if(currentSubmenu && currentMenu) {
             let editor = document.getElementById("subEditor");
@@ -772,26 +766,26 @@
     }
     
     // ==================== LOGIN ====================
-function doLogin() {
-    let id = document.getElementById("userId").value.trim();
-    let pass = document.getElementById("userPass").value.trim();
-    
-    console.log("ID masuk:", id);
-    console.log("Password masuk:", pass);
-    
-    if(id === "admin" && pass === "101010") {
-        document.getElementById("loginScreen").style.display = "none";
-        document.getElementById("mainApp").style.display = "block";
-        loadAllData();
-        saveHistory();
-        showToast("✨ Selamat datang! ✨");
-    } else {
-        document.getElementById("loginError").innerHTML = "❌ Login gagal!<br>ID: admin | Password: 1234";
+    function doLogin() {
+        let id = document.getElementById("userId").value.trim();
+        let pass = document.getElementById("userPass").value.trim();
+        
+        // AKUN: admin / 101010
+        if(id === "admin" && pass === "101010") {
+            document.getElementById("loginScreen").style.display = "none";
+            document.getElementById("mainApp").style.display = "block";
+            loadAllData();
+            saveHistory();
+            showToast("👑 Selamat datang, Master Hans! 👑");
+        } else {
+            document.getElementById("loginError").innerHTML = "❌ Login gagal!<br>Username: admin | Password: 101010";
+        }
     }
-}
+    
     // Keyboard shortcuts
     document.addEventListener("keydown", function(e) {
-        if(document.getElementById("mainApp").style.display === "block") {
+        const mainApp = document.getElementById("mainApp");
+        if(mainApp && mainApp.style.display === "block") {
             if(e.ctrlKey && e.key === 's') {
                 e.preventDefault();
                 saveData();
@@ -803,9 +797,13 @@ function doLogin() {
         }
     });
     
-    document.getElementById("userPass")?.addEventListener("keypress", function(e) {
-        if(e.key === "Enter") doLogin();
-    });
+    // Enter login
+    const passInput = document.getElementById("userPass");
+    if(passInput) {
+        passInput.addEventListener("keypress", function(e) {
+            if(e.key === "Enter") doLogin();
+        });
+    }
 </script>
 </body>
 </html>
