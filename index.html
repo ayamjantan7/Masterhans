@@ -154,7 +154,7 @@
 
         .app { display: flex; min-height: 100vh; position: relative; z-index: 1; }
         .sidebar {
-            width: 330px;
+            width: 380px;
             background: rgba(15, 45, 65, 0.88);
             backdrop-filter: blur(12px);
             padding: 25px;
@@ -176,30 +176,45 @@
         }
         .menu-header:hover { background: #3a7ca0; transform: translateX(5px); }
         .menu-title { display: flex; gap: 10px; flex: 1; font-weight: 500; }
-        .menu-controls { display: flex; gap: 6px; }
+        .menu-controls { display: flex; gap: 5px; }
         .menu-controls button {
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.6);
             border: none;
             color: white;
-            padding: 5px 10px;
-            border-radius: 10px;
+            padding: 4px 8px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 11px;
         }
-        .menu-controls button:hover { background: rgba(0,0,0,0.8); }
+        .menu-controls button:hover { background: rgba(0,0,0,0.9); }
         .delete-btn:hover { background: #c0392b !important; }
 
         .submenu { margin-left: 25px; margin-top: 8px; margin-bottom: 12px; display: none; }
         .submenu.open { display: block; animation: dropdownOpen 0.3s ease-out; }
         .submenu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             background: rgba(40, 90, 115, 0.6);
             border-radius: 12px;
-            padding: 10px 14px;
-            margin: 6px 0;
+            padding: 8px 12px;
+            margin: 5px 0;
             cursor: pointer;
             transition: 0.2s;
         }
-        .submenu-item:hover { background: #4a8fb0; transform: translateX(5px); }
+        .submenu-item:hover { background: #4a8fb0; }
+        .submenu-title { flex: 1; font-size: 13px; }
+        .submenu-controls { display: flex; gap: 4px; }
+        .submenu-controls button {
+            background: rgba(0,0,0,0.5);
+            border: none;
+            color: white;
+            padding: 3px 7px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 10px;
+        }
+        .submenu-controls button:hover { background: rgba(0,0,0,0.8); }
         .add-submenu {
             background: rgba(60, 120, 150, 0.4);
             border: 1px dashed #7ec8e0;
@@ -236,7 +251,7 @@
         .global-actions { margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(126, 200, 224, 0.3); }
         .global-actions button { width: 100%; }
 
-        @media (max-width: 768px) { .sidebar { width: 280px; } .content { padding: 20px; } }
+        @media (max-width: 768px) { .sidebar { width: 320px; } .content { padding: 20px; } }
     </style>
 </head>
 <body>
@@ -311,15 +326,16 @@
     // DATA
     let menus = [
         { id: "notepad", display: "📝 Notepad", type: "editor", content: "", subitems: [] },
-        { id: "hotkeys", display: "⚡ Hotkeys", type: "text", content: "✨ CTRL + S = Save\n✨ CTRL + Z = Undo", subitems: [] },
+        { id: "hotkeys", display: "⚡ Hotkeys", type: "text", content: "✨ CTRL + S = Save\n✨ CTRL + Z = Undo\n✨ Klik ↑↓ untuk pindah menu\n✨ Klik 🗑️ untuk hapus menu", subitems: [] },
         { id: "todo", display: "✅ To Do List", type: "todo", content: "[]", subitems: [] },
         { id: "daftar_akun", display: "📂 Daftar Akun", type: "editor", content: "", subitems: [
             { id: "bank", display: "🔹 Akun Bank", content: "" },
-            { id: "email", display: "🔹 Akun Email", content: "" }
+            { id: "email", display: "🔹 Akun Email", content: "" },
+            { id: "medsos", display: "🔹 Media Sosial", content: "" }
         ]}
     ];
 
-    let currentMenu = null, currentSubmenu = null, historyData = [];
+    let currentMenu = null, currentSubmenu = null, currentSubmenuParent = null, historyData = [];
 
     function saveAllData() { localStorage.setItem("master_hans_data", JSON.stringify(menus)); }
     function loadAllData() {
@@ -335,7 +351,7 @@
         if(!container) return;
         container.innerHTML = "";
         
-        menus.forEach((menu, idx) => {
+        menus.forEach((menu, menuIdx) => {
             const menuDiv = document.createElement("div");
             menuDiv.className = "menu-item";
             
@@ -345,44 +361,45 @@
             const titleSpan = document.createElement("div");
             titleSpan.className = "menu-title";
             titleSpan.innerHTML = menu.display;
-            titleSpan.onclick = (e) => {
-                e.stopPropagation();
-                openMainMenu(menu);
-            };
+            titleSpan.onclick = () => openMainMenu(menu);
             
             const controls = document.createElement("div");
             controls.className = "menu-controls";
             
-            // Tombol UP
-            if(idx > 0) {
+            // Tombol UP menu utama
+            if(menuIdx > 0) {
                 const upBtn = document.createElement("button");
                 upBtn.innerHTML = "↑";
                 upBtn.onclick = (e) => {
                     e.stopPropagation();
-                    moveMenuUp(idx);
+                    [menus[menuIdx-1], menus[menuIdx]] = [menus[menuIdx], menus[menuIdx-1]];
+                    saveAllData();
+                    renderSidebar();
                 };
                 controls.appendChild(upBtn);
             }
             
-            // Tombol DOWN
-            if(idx < menus.length - 1) {
+            // Tombol DOWN menu utama
+            if(menuIdx < menus.length - 1) {
                 const downBtn = document.createElement("button");
                 downBtn.innerHTML = "↓";
                 downBtn.onclick = (e) => {
                     e.stopPropagation();
-                    moveMenuDown(idx);
+                    [menus[menuIdx], menus[menuIdx+1]] = [menus[menuIdx+1], menus[menuIdx]];
+                    saveAllData();
+                    renderSidebar();
                 };
                 controls.appendChild(downBtn);
             }
             
-            // Tombol DELETE
+            // Tombol DELETE menu utama
             const delBtn = document.createElement("button");
             delBtn.innerHTML = "🗑️";
             delBtn.className = "delete-btn";
             delBtn.onclick = (e) => {
                 e.stopPropagation();
                 if(confirm(`Hapus menu "${menu.display}"?`)) {
-                    menus.splice(idx, 1);
+                    menus.splice(menuIdx, 1);
                     saveAllData();
                     renderSidebar();
                 }
@@ -393,28 +410,75 @@
             header.appendChild(controls);
             menuDiv.appendChild(header);
             
-            // SUBMENU
+            // SUBMENU (point-point kecil)
             const submenuDiv = document.createElement("div");
             submenuDiv.className = "submenu";
             
-            if(menu.subitems && menu.subitems.length > 0) {
-                menu.subitems.forEach((sub, subIdx) => {
-                    const subItem = document.createElement("div");
-                    subItem.className = "submenu-item";
-                    subItem.innerHTML = sub.display;
-                    subItem.onclick = (e) => {
+            menu.subitems.forEach((sub, subIdx) => {
+                const subItem = document.createElement("div");
+                subItem.className = "submenu-item";
+                
+                const subTitle = document.createElement("div");
+                subTitle.className = "submenu-title";
+                subTitle.innerHTML = sub.display;
+                subTitle.onclick = () => openSubmenu(menu, subIdx);
+                
+                const subControls = document.createElement("div");
+                subControls.className = "submenu-controls";
+                
+                // Tombol UP point kecil
+                if(subIdx > 0) {
+                    const upSubBtn = document.createElement("button");
+                    upSubBtn.innerHTML = "↑";
+                    upSubBtn.onclick = (e) => {
                         e.stopPropagation();
-                        openSubmenu(menu, subIdx);
+                        [menu.subitems[subIdx-1], menu.subitems[subIdx]] = [menu.subitems[subIdx], menu.subitems[subIdx-1]];
+                        saveAllData();
+                        renderSidebar();
                     };
-                    submenuDiv.appendChild(subItem);
-                });
-            }
+                    subControls.appendChild(upSubBtn);
+                }
+                
+                // Tombol DOWN point kecil
+                if(subIdx < menu.subitems.length - 1) {
+                    const downSubBtn = document.createElement("button");
+                    downSubBtn.innerHTML = "↓";
+                    downSubBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        [menu.subitems[subIdx], menu.subitems[subIdx+1]] = [menu.subitems[subIdx+1], menu.subitems[subIdx]];
+                        saveAllData();
+                        renderSidebar();
+                    };
+                    subControls.appendChild(downSubBtn);
+                }
+                
+                // Tombol DELETE point kecil
+                const delSubBtn = document.createElement("button");
+                delSubBtn.innerHTML = "🗑️";
+                delSubBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    if(confirm(`Hapus point "${sub.display}" dari ${menu.display}?`)) {
+                        menu.subitems.splice(subIdx, 1);
+                        saveAllData();
+                        renderSidebar();
+                        if(currentSubmenu === sub) {
+                            currentSubmenu = null;
+                            document.getElementById("contentArea").innerHTML = "<div style='color:white; padding:40px;'>✨ Pilih menu atau point di samping kiri ✨</div>";
+                        }
+                    }
+                };
+                subControls.appendChild(delSubBtn);
+                
+                subItem.appendChild(subTitle);
+                subItem.appendChild(subControls);
+                submenuDiv.appendChild(subItem);
+            });
             
+            // Tombol tambah point kecil
             const addSubBtn = document.createElement("div");
             addSubBtn.className = "add-submenu";
             addSubBtn.innerHTML = "+ Tambah Point Kecil";
-            addSubBtn.onclick = (e) => {
-                e.stopPropagation();
+            addSubBtn.onclick = () => {
                 let nama = prompt("Nama point kecil:", "Point Baru");
                 if(nama && nama.trim()) {
                     menu.subitems.push({ id: Date.now(), display: nama.trim(), content: "" });
@@ -425,7 +489,7 @@
             submenuDiv.appendChild(addSubBtn);
             menuDiv.appendChild(submenuDiv);
             
-            // Toggle submenu saat klik header
+            // Toggle submenu
             header.onclick = (e) => {
                 if(e.target.closest('.menu-controls')) return;
                 submenuDiv.classList.toggle("open");
@@ -438,19 +502,23 @@
     function openMainMenu(menu) {
         currentMenu = menu;
         currentSubmenu = null;
+        currentSubmenuParent = null;
         let div = document.getElementById("contentArea");
         if(menu.type === "editor") {
             div.innerHTML = `<textarea id="mainEditor">${menu.content || ""}</textarea>`;
         } else if(menu.type === "text") {
-            div.innerHTML = `<div style="color:white; white-space:pre-wrap;">${menu.content || ""}</div>`;
+            div.innerHTML = `<div style="color:white; white-space:pre-wrap; font-size:16px; line-height:1.8;">${menu.content || ""}</div>`;
         } else if(menu.type === "todo") {
             let list = [];
             try { list = JSON.parse(menu.content || "[]"); } catch(e) {}
-            let html = `<input type="text" id="newTodo" placeholder="Tugas baru..." style="width:70%; padding:10px;">
-                        <button onclick="addTodoItem()">Tambah</button>
-                        <ul style="margin-top:15px;">`;
+            let html = `<input type="text" id="newTodo" placeholder="Tugas baru..." style="width:70%; padding:10px; border-radius:40px; border:none;">
+                        <button onclick="addTodoItem()">➕ Tambah</button>
+                        <ul style="margin-top:20px;">`;
             list.forEach((item, i) => {
-                html += `<li style="color:white; margin:8px 0;">📌 ${item} <button onclick="deleteTodoItem(${i})">❌</button></li>`;
+                html += `<li style="color:white; margin:10px 0; padding:8px; background:rgba(255,255,255,0.1); border-radius:12px; display:flex; justify-content:space-between;">
+                            <span>📌 ${item}</span>
+                            <button onclick="deleteTodoItem(${i})">❌ Hapus</button>
+                        </li>`;
             });
             html += `</ul>`;
             div.innerHTML = html;
@@ -459,9 +527,10 @@
         }
     }
 
-    function openSubmenu(menu, idx) {
+    function openSubmenu(menu, subIdx) {
         currentMenu = menu;
-        currentSubmenu = menu.subitems[idx];
+        currentSubmenu = menu.subitems[subIdx];
+        currentSubmenuParent = menu;
         document.getElementById("contentArea").innerHTML = `<textarea id="subEditor">${currentSubmenu.content || ""}</textarea>`;
     }
 
@@ -486,22 +555,6 @@
         openMainMenu(menu);
     }
 
-    function moveMenuUp(idx) {
-        if(idx > 0) {
-            [menus[idx-1], menus[idx]] = [menus[idx], menus[idx-1]];
-            saveAllData();
-            renderSidebar();
-        }
-    }
-    
-    function moveMenuDown(idx) {
-        if(idx < menus.length - 1) {
-            [menus[idx], menus[idx+1]] = [menus[idx+1], menus[idx]];
-            saveAllData();
-            renderSidebar();
-        }
-    }
-    
     function tambahMenuBaru() {
         let nama = prompt("Nama menu baru:", "Menu Baru");
         if(nama && nama.trim()) {
