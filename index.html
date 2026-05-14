@@ -12,6 +12,7 @@
             font-family: system-ui, 'Segoe UI', 'Poppins', sans-serif;
         }
 
+        /* Animasi */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -44,25 +45,10 @@
             from { 
                 opacity: 0;
                 transform: translateY(-10px);
-                max-height: 0;
             }
             to { 
                 opacity: 1;
                 transform: translateY(0);
-                max-height: 500px;
-            }
-        }
-
-        @keyframes dropdownClose {
-            from {
-                opacity: 1;
-                transform: translateY(0);
-                max-height: 500px;
-            }
-            to {
-                opacity: 0;
-                transform: translateY(-10px);
-                max-height: 0;
             }
         }
 
@@ -70,20 +56,21 @@
         .ripple {
             position: fixed;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 70%);
+            background: radial-gradient(circle, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 70%);
             transform: scale(0);
-            animation: rippleAnim 0.6s ease-out;
+            animation: rippleAnim 0.5s ease-out;
             pointer-events: none;
             z-index: 9999;
         }
 
         @keyframes rippleAnim {
             to {
-                transform: scale(10);
+                transform: scale(15);
                 opacity: 0;
             }
         }
 
+        /* Background utama */
         body {
             min-height: 100vh;
             background: linear-gradient(135deg, #1a4a6f, #2c7ab1, #4a9fcf);
@@ -93,13 +80,13 @@
             overflow-x: hidden;
         }
 
-        /* Background awan */
+        /* Background awan - posisi fixed biar di semua halaman */
         .cloud {
             position: fixed;
             background: rgba(255, 255, 255, 0.85);
             border-radius: 1000px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-            z-index: -1;
+            z-index: 0;
             pointer-events: none;
         }
 
@@ -112,10 +99,10 @@
 
         .cloud1 {
             top: 10%;
-            left: -100px;
+            left: -150px;
             width: 180px;
             height: 100px;
-            animation: floatCloud 25s linear infinite;
+            animation: floatCloud1 20s linear infinite;
         }
         .cloud1::before {
             width: 70px;
@@ -132,10 +119,10 @@
 
         .cloud2 {
             bottom: 15%;
-            right: -120px;
+            right: -150px;
             width: 200px;
             height: 110px;
-            animation: floatCloud 30s linear infinite reverse;
+            animation: floatCloud2 25s linear infinite;
         }
         .cloud2::before {
             width: 80px;
@@ -151,11 +138,11 @@
         }
 
         .cloud3 {
-            top: 40%;
-            right: 20%;
+            top: 50%;
+            right: 10%;
             width: 140px;
             height: 80px;
-            animation: floatCloud 20s linear infinite;
+            animation: floatCloud3 18s linear infinite;
             opacity: 0.6;
         }
         .cloud3::before {
@@ -171,9 +158,42 @@
             left: 55px;
         }
 
-        @keyframes floatCloud {
+        .cloud4 {
+            top: 70%;
+            left: 20%;
+            width: 120px;
+            height: 70px;
+            animation: floatCloud4 22s linear infinite;
+            opacity: 0.5;
+        }
+        .cloud4::before {
+            width: 50px;
+            height: 50px;
+            top: -25px;
+            left: 15px;
+        }
+        .cloud4::after {
+            width: 70px;
+            height: 70px;
+            top: -35px;
+            left: 50px;
+        }
+
+        @keyframes floatCloud1 {
             from { transform: translateX(0); }
             to { transform: translateX(calc(100vw + 200px)); }
+        }
+        @keyframes floatCloud2 {
+            from { transform: translateX(0); }
+            to { transform: translateX(calc(-100vw - 250px)); }
+        }
+        @keyframes floatCloud3 {
+            from { transform: translateX(0); }
+            to { transform: translateX(calc(100vw + 200px)); }
+        }
+        @keyframes floatCloud4 {
+            from { transform: translateX(0); }
+            to { transform: translateX(calc(-100vw - 200px)); }
         }
 
         /* Efek salju */
@@ -208,7 +228,7 @@
             backdrop-filter: blur(15px);
             border: 1px solid rgba(200, 230, 255, 0.5);
             width: 340px;
-            z-index: 100;
+            z-index: 101;
             animation: fadeIn 0.6s ease-out, glowPulse 3s infinite;
         }
 
@@ -272,6 +292,8 @@
             display: flex;
             min-height: 100vh;
             animation: fadeIn 0.5s ease-out;
+            position: relative;
+            z-index: 1;
         }
 
         /* SIDEBAR */
@@ -357,17 +379,12 @@
             margin-left: 25px;
             margin-top: 8px;
             margin-bottom: 12px;
-            overflow: hidden;
-            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .submenu.closed {
             display: none;
         }
 
         .submenu.open {
             display: block;
-            animation: dropdownOpen 0.35s ease-out forwards;
+            animation: dropdownOpen 0.3s ease-out forwards;
         }
 
         .submenu-item {
@@ -502,10 +519,11 @@
 </head>
 <body>
 
-<!-- Background Awan -->
+<!-- Background Awan (selalu ada) -->
 <div class="cloud cloud1"></div>
 <div class="cloud cloud2"></div>
 <div class="cloud cloud3"></div>
+<div class="cloud cloud4"></div>
 
 <div id="loginScreen">
     <div class="login-box">
@@ -543,37 +561,38 @@
     function createRipple(event) {
         const ripple = document.createElement('div');
         ripple.className = 'ripple';
-        const size = Math.max(window.innerWidth, window.innerHeight) * 0.5;
+        const size = Math.max(window.innerWidth, window.innerHeight) * 0.6;
         ripple.style.width = ripple.style.height = `${size}px`;
         ripple.style.left = `${event.clientX - size/2}px`;
         ripple.style.top = `${event.clientY - size/2}px`;
         document.body.appendChild(ripple);
-        setTimeout(() => ripple.remove(), 600);
+        setTimeout(() => ripple.remove(), 500);
     }
     
     document.addEventListener('click', function(e) {
-        // Jangan buat ripple di tombol kontrol (biar tidak terlalu banyak)
+        // Jangan buat ripple di tombol kontrol biar tidak terlalu ramai
         if(!e.target.closest('.menu-controls') && !e.target.closest('.submenu-controls')) {
             createRipple(e);
         }
     });
     
-    // ==================== EFEK SALJU ====================
+    // ==================== EFEK SALJU (berlaku terus) ====================
     function createSnow() {
         const snow = document.createElement('div');
         snow.className = 'snow';
-        const size = Math.random() * 6 + 3;
+        const size = Math.random() * 6 + 2;
         snow.style.width = `${size}px`;
         snow.style.height = `${size}px`;
         snow.style.left = `${Math.random() * window.innerWidth}px`;
-        snow.style.opacity = Math.random() * 0.6 + 0.3;
-        snow.style.animationDuration = `${Math.random() * 5 + 3}s`;
+        snow.style.opacity = Math.random() * 0.7 + 0.3;
+        snow.style.animationDuration = `${Math.random() * 5 + 2}s`;
         snow.style.animationDelay = `${Math.random() * 2}s`;
         document.body.appendChild(snow);
-        setTimeout(() => snow.remove(), 8000);
+        setTimeout(() => snow.remove(), 7000);
     }
     
-    setInterval(createSnow, 150);
+    // Salju turun setiap 100ms (banyak)
+    let snowInterval = setInterval(createSnow, 100);
     
     // ==================== DATA STRUCTURE ====================
     let menus = [
@@ -616,11 +635,11 @@
     let historyData = [];
     
     function saveAllData() {
-        localStorage.setItem("master_hans_winter", JSON.stringify(menus));
+        localStorage.setItem("master_hans_winter_v2", JSON.stringify(menus));
     }
     
     function loadAllData() {
-        let saved = localStorage.getItem("master_hans_winter");
+        let saved = localStorage.getItem("master_hans_winter_v2");
         if(saved) {
             menus = JSON.parse(saved);
         }
@@ -700,7 +719,7 @@
             menuDiv.appendChild(header);
             
             const submenuDiv = document.createElement("div");
-            submenuDiv.className = "submenu closed";
+            submenuDiv.className = "submenu";
             submenuDiv.id = `submenu_${idx}`;
             
             if(menu.subitems && menu.subitems.length > 0) {
@@ -749,20 +768,11 @@
             
             header.onclick = (e) => {
                 if(e.target.closest('.menu-controls')) return;
-                const isOpen = submenuDiv.classList.contains("open");
-                if(isOpen) {
-                    submenuDiv.classList.remove("open");
-                    submenuDiv.classList.add("closed");
-                } else {
-                    submenuDiv.classList.remove("closed");
-                    submenuDiv.classList.add("open");
-                }
-                localStorage.setItem(`submenu_open_${idx}`, !isOpen);
+                submenuDiv.classList.toggle("open");
+                localStorage.setItem(`submenu_open_${idx}`, submenuDiv.classList.contains("open"));
             };
             
-            const savedState = localStorage.getItem(`submenu_open_${idx}`);
-            if(savedState === "true") {
-                submenuDiv.classList.remove("closed");
+            if(localStorage.getItem(`submenu_open_${idx}`) === "true") {
                 submenuDiv.classList.add("open");
             }
             
@@ -944,6 +954,7 @@
         setTimeout(() => toast.remove(), 2000);
     }
     
+    // ==================== LOGIN (TANPA PETUNJUK ID/PASSWORD) ====================
     function doLogin() {
         let id = document.getElementById("userId").value.trim();
         let pass = document.getElementById("userPass").value.trim();
@@ -955,7 +966,8 @@
             saveHistory();
             showToast("❄️ Selamat datang, Master Hans! ❄️");
         } else {
-            document.getElementById("loginError").innerHTML = "❌ Login gagal!<br>Username: admin | Password: 101010";
+            // Hanya bilang salah, tanpa petunjuk ID/password
+            document.getElementById("loginError").innerHTML = "❌ Username atau Password salah!";
         }
     }
     
