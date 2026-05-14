@@ -44,7 +44,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Ripple kecil */
         .ripple {
             position: fixed;
             border-radius: 50%;
@@ -70,7 +69,6 @@
             overflow-x: hidden;
         }
 
-        /* Awan */
         .cloud {
             position: fixed;
             background: rgba(255, 255, 255, 0.85);
@@ -108,7 +106,6 @@
         @keyframes floatCloud3 { from { transform: translateX(0); } to { transform: translateX(calc(100vw + 200px)); } }
         @keyframes floatCloud4 { from { transform: translateX(0); } to { transform: translateX(calc(-100vw - 200px)); } }
 
-        /* Salju */
         .snow {
             position: fixed;
             top: -10px;
@@ -124,7 +121,6 @@
             to { transform: translateY(100vh); opacity: 0; }
         }
 
-        /* Login Box */
         .login-box {
             position: fixed;
             top: 50%;
@@ -156,7 +152,6 @@
         }
         .error { color: #ffb4a2; margin-top: 15px; }
 
-        /* Main App */
         .app { display: flex; min-height: 100vh; position: relative; z-index: 1; }
         .sidebar {
             width: 330px;
@@ -172,6 +167,7 @@
         .menu-header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             background: rgba(60, 120, 150, 0.5);
             border-radius: 14px;
             padding: 12px 15px;
@@ -180,12 +176,17 @@
         }
         .menu-header:hover { background: #3a7ca0; transform: translateX(5px); }
         .menu-title { display: flex; gap: 10px; flex: 1; font-weight: 500; }
-        .menu-controls { display: flex; gap: 6px; opacity: 0; transition: 0.2s; }
-        .menu-header:hover .menu-controls { opacity: 1; }
+        .menu-controls { display: flex; gap: 6px; }
         .menu-controls button {
-            background: rgba(0,0,0,0.5); border: none; color: white;
-            padding: 5px 10px; border-radius: 10px; cursor: pointer;
+            background: rgba(0,0,0,0.5);
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 12px;
         }
+        .menu-controls button:hover { background: rgba(0,0,0,0.8); }
         .delete-btn:hover { background: #c0392b !important; }
 
         .submenu { margin-left: 25px; margin-top: 8px; margin-bottom: 12px; display: none; }
@@ -240,13 +241,11 @@
 </head>
 <body>
 
-<!-- Awan -->
 <div class="cloud cloud1"></div>
 <div class="cloud cloud2"></div>
 <div class="cloud cloud3"></div>
 <div class="cloud cloud4"></div>
 
-<!-- Login -->
 <div id="loginScreen">
     <div class="login-box">
         <h2>❄️ MASTER HANS ❄️</h2>
@@ -257,7 +256,6 @@
     </div>
 </div>
 
-<!-- Main App -->
 <div id="mainApp" style="display: none;">
     <div class="app">
         <div class="sidebar">
@@ -280,7 +278,7 @@
 </div>
 
 <script>
-    // ==================== RIPPLE KLIK (kecil) ====================
+    // RIPPLE
     function createRipple(event) {
         const ripple = document.createElement('div');
         ripple.className = 'ripple';
@@ -295,7 +293,7 @@
         }
     });
 
-    // ==================== SALJU TURUN ====================
+    // SALJU
     function createSnow() {
         const snow = document.createElement('div');
         snow.className = 'snow';
@@ -310,7 +308,7 @@
     }
     setInterval(createSnow, 100);
 
-    // ==================== DATA ====================
+    // DATA
     let menus = [
         { id: "notepad", display: "📝 Notepad", type: "editor", content: "", subitems: [] },
         { id: "hotkeys", display: "⚡ Hotkeys", type: "text", content: "✨ CTRL + S = Save\n✨ CTRL + Z = Undo", subitems: [] },
@@ -336,71 +334,134 @@
         const container = document.getElementById("menuContainer");
         if(!container) return;
         container.innerHTML = "";
+        
         menus.forEach((menu, idx) => {
-            const div = document.createElement("div");
-            div.className = "menu-item";
+            const menuDiv = document.createElement("div");
+            menuDiv.className = "menu-item";
+            
             const header = document.createElement("div");
             header.className = "menu-header";
-            header.innerHTML = `<div class="menu-title">${menu.display}</div>`;
+            
+            const titleSpan = document.createElement("div");
+            titleSpan.className = "menu-title";
+            titleSpan.innerHTML = menu.display;
+            titleSpan.onclick = (e) => {
+                e.stopPropagation();
+                openMainMenu(menu);
+            };
+            
             const controls = document.createElement("div");
             controls.className = "menu-controls";
+            
+            // Tombol UP
             if(idx > 0) {
-                let up = document.createElement("button");
-                up.innerHTML = "↑";
-                up.onclick = (e) => { e.stopPropagation(); moveMenuUp(idx); };
-                controls.appendChild(up);
+                const upBtn = document.createElement("button");
+                upBtn.innerHTML = "↑";
+                upBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    moveMenuUp(idx);
+                };
+                controls.appendChild(upBtn);
             }
-            if(idx < menus.length-1) {
-                let down = document.createElement("button");
-                down.innerHTML = "↓";
-                down.onclick = (e) => { e.stopPropagation(); moveMenuDown(idx); };
-                controls.appendChild(down);
+            
+            // Tombol DOWN
+            if(idx < menus.length - 1) {
+                const downBtn = document.createElement("button");
+                downBtn.innerHTML = "↓";
+                downBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    moveMenuDown(idx);
+                };
+                controls.appendChild(downBtn);
             }
-            let del = document.createElement("button");
-            del.innerHTML = "🗑️";
-            del.className = "delete-btn";
-            del.onclick = (e) => { e.stopPropagation(); if(confirm(`Hapus ${menu.display}?`)) { menus.splice(idx,1); saveAllData(); renderSidebar(); } };
-            controls.appendChild(del);
+            
+            // Tombol DELETE
+            const delBtn = document.createElement("button");
+            delBtn.innerHTML = "🗑️";
+            delBtn.className = "delete-btn";
+            delBtn.onclick = (e) => {
+                e.stopPropagation();
+                if(confirm(`Hapus menu "${menu.display}"?`)) {
+                    menus.splice(idx, 1);
+                    saveAllData();
+                    renderSidebar();
+                }
+            };
+            controls.appendChild(delBtn);
+            
+            header.appendChild(titleSpan);
             header.appendChild(controls);
-            div.appendChild(header);
-
-            const subDiv = document.createElement("div");
-            subDiv.className = "submenu";
-            menu.subitems.forEach((sub, sidx) => {
-                let subItem = document.createElement("div");
-                subItem.className = "submenu-item";
-                subItem.innerHTML = sub.display;
-                subItem.onclick = () => openSubmenu(menu, sidx);
-                subDiv.appendChild(subItem);
-            });
-            let addBtn = document.createElement("div");
-            addBtn.className = "add-submenu";
-            addBtn.innerHTML = "+ Tambah Point Kecil";
-            addBtn.onclick = () => { let nama = prompt("Nama point:"); if(nama) { menu.subitems.push({ id: Date.now(), display: nama, content: "" }); saveAllData(); renderSidebar(); } };
-            subDiv.appendChild(addBtn);
-            div.appendChild(subDiv);
-
-            header.onclick = () => subDiv.classList.toggle("open");
-            container.appendChild(div);
+            menuDiv.appendChild(header);
+            
+            // SUBMENU
+            const submenuDiv = document.createElement("div");
+            submenuDiv.className = "submenu";
+            
+            if(menu.subitems && menu.subitems.length > 0) {
+                menu.subitems.forEach((sub, subIdx) => {
+                    const subItem = document.createElement("div");
+                    subItem.className = "submenu-item";
+                    subItem.innerHTML = sub.display;
+                    subItem.onclick = (e) => {
+                        e.stopPropagation();
+                        openSubmenu(menu, subIdx);
+                    };
+                    submenuDiv.appendChild(subItem);
+                });
+            }
+            
+            const addSubBtn = document.createElement("div");
+            addSubBtn.className = "add-submenu";
+            addSubBtn.innerHTML = "+ Tambah Point Kecil";
+            addSubBtn.onclick = (e) => {
+                e.stopPropagation();
+                let nama = prompt("Nama point kecil:", "Point Baru");
+                if(nama && nama.trim()) {
+                    menu.subitems.push({ id: Date.now(), display: nama.trim(), content: "" });
+                    saveAllData();
+                    renderSidebar();
+                }
+            };
+            submenuDiv.appendChild(addSubBtn);
+            menuDiv.appendChild(submenuDiv);
+            
+            // Toggle submenu saat klik header
+            header.onclick = (e) => {
+                if(e.target.closest('.menu-controls')) return;
+                submenuDiv.classList.toggle("open");
+            };
+            
+            container.appendChild(menuDiv);
         });
     }
 
     function openMainMenu(menu) {
-        currentMenu = menu; currentSubmenu = null;
+        currentMenu = menu;
+        currentSubmenu = null;
         let div = document.getElementById("contentArea");
-        if(menu.type === "editor") div.innerHTML = `<textarea id="mainEditor">${menu.content || ""}</textarea>`;
-        else if(menu.type === "text") div.innerHTML = `<div style="color:white;">${menu.content || ""}</div>`;
-        else if(menu.type === "todo") {
-            let list = JSON.parse(menu.content || "[]");
-            let html = `<input type="text" id="newTodo" placeholder="Tugas baru..." style="width:70%; padding:10px;"><button onclick="addTodoItem()">Tambah</button><ul>`;
-            list.forEach((item,i) => html += `<li>${item} <button onclick="deleteTodoItem(${i})">❌</button></li>`);
+        if(menu.type === "editor") {
+            div.innerHTML = `<textarea id="mainEditor">${menu.content || ""}</textarea>`;
+        } else if(menu.type === "text") {
+            div.innerHTML = `<div style="color:white; white-space:pre-wrap;">${menu.content || ""}</div>`;
+        } else if(menu.type === "todo") {
+            let list = [];
+            try { list = JSON.parse(menu.content || "[]"); } catch(e) {}
+            let html = `<input type="text" id="newTodo" placeholder="Tugas baru..." style="width:70%; padding:10px;">
+                        <button onclick="addTodoItem()">Tambah</button>
+                        <ul style="margin-top:15px;">`;
+            list.forEach((item, i) => {
+                html += `<li style="color:white; margin:8px 0;">📌 ${item} <button onclick="deleteTodoItem(${i})">❌</button></li>`;
+            });
             html += `</ul>`;
             div.innerHTML = html;
+        } else {
+            div.innerHTML = `<textarea id="mainEditor">${menu.content || ""}</textarea>`;
         }
     }
 
     function openSubmenu(menu, idx) {
-        currentMenu = menu; currentSubmenu = menu.subitems[idx];
+        currentMenu = menu;
+        currentSubmenu = menu.subitems[idx];
         document.getElementById("contentArea").innerHTML = `<textarea id="subEditor">${currentSubmenu.content || ""}</textarea>`;
     }
 
@@ -415,30 +476,61 @@
             openMainMenu(menu);
         }
     }
+    
     function deleteTodoItem(idx) {
         let menu = menus.find(m => m.type === "todo");
         let list = JSON.parse(menu.content || "[]");
-        list.splice(idx,1);
+        list.splice(idx, 1);
         menu.content = JSON.stringify(list);
         saveAllData();
         openMainMenu(menu);
     }
 
-    function moveMenuUp(idx) { if(idx>0) { [menus[idx-1], menus[idx]] = [menus[idx], menus[idx-1]]; saveAllData(); renderSidebar(); } }
-    function moveMenuDown(idx) { if(idx<menus.length-1) { [menus[idx], menus[idx+1]] = [menus[idx+1], menus[idx]]; saveAllData(); renderSidebar(); } }
-    function tambahMenuBaru() { let nama = prompt("Nama menu baru:"); if(nama) { menus.push({ id: Date.now(), display: nama, type: "editor", content: "", subitems: [] }); saveAllData(); renderSidebar(); } }
+    function moveMenuUp(idx) {
+        if(idx > 0) {
+            [menus[idx-1], menus[idx]] = [menus[idx], menus[idx-1]];
+            saveAllData();
+            renderSidebar();
+        }
+    }
+    
+    function moveMenuDown(idx) {
+        if(idx < menus.length - 1) {
+            [menus[idx], menus[idx+1]] = [menus[idx+1], menus[idx]];
+            saveAllData();
+            renderSidebar();
+        }
+    }
+    
+    function tambahMenuBaru() {
+        let nama = prompt("Nama menu baru:", "Menu Baru");
+        if(nama && nama.trim()) {
+            menus.push({ id: Date.now(), display: nama.trim(), type: "editor", content: "", subitems: [] });
+            saveAllData();
+            renderSidebar();
+        }
+    }
 
     function saveData() {
-        let ed = document.getElementById("mainEditor") || document.getElementById("subEditor");
-        if(ed && currentSubmenu) currentSubmenu.content = ed.value;
-        else if(ed && currentMenu && currentMenu.type !== "todo") currentMenu.content = ed.value;
-        saveAllData(); saveHistory();
-        alert("✅ Tersimpan!");
+        let editor = document.getElementById("mainEditor") || document.getElementById("subEditor");
+        if(editor && currentSubmenu) {
+            currentSubmenu.content = editor.value;
+        } else if(editor && currentMenu && currentMenu.type !== "todo" && currentMenu.type !== "text") {
+            currentMenu.content = editor.value;
+        }
+        saveAllData();
+        saveHistory();
+        alert("✅ Data tersimpan!");
     }
+    
     function undoData() {
-        if(historyData.length === 0) return alert("Tidak ada undo");
+        if(historyData.length === 0) {
+            alert("⚠️ Tidak ada data untuk undo");
+            return;
+        }
         menus = historyData.pop();
-        saveAllData(); renderSidebar();
+        saveAllData();
+        renderSidebar();
         alert("↩️ Undo berhasil");
     }
 
