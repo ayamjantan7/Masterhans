@@ -5,98 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MASTER HANS - Winter Panel</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: system-ui, 'Segoe UI', 'Poppins', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, 'Segoe UI', sans-serif; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-30px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(30px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        @keyframes glowPulse {
-            0% { box-shadow: 0 0 5px rgba(150, 200, 255, 0.3); }
-            50% { box-shadow: 0 0 25px rgba(150, 200, 255, 0.6); }
-            100% { box-shadow: 0 0 5px rgba(150, 200, 255, 0.3); }
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        @keyframes dropdownOpen {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideInLeft { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes glowPulse { 0% { box-shadow: 0 0 5px rgba(150,200,255,0.3); } 50% { box-shadow: 0 0 25px rgba(150,200,255,0.6); } 100% { box-shadow: 0 0 5px rgba(150,200,255,0.3); } }
+        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes dropdownOpen { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         .ripple {
-            position: fixed;
-            border-radius: 50%;
+            position: fixed; border-radius: 50%;
             background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.3) 60%, rgba(255,255,255,0) 80%);
-            width: 50px;
-            height: 50px;
-            transform: scale(0);
-            animation: rippleAnim 0.4s ease-out;
-            pointer-events: none;
-            z-index: 9999;
+            width: 50px; height: 50px; transform: scale(0);
+            animation: rippleAnim 0.4s ease-out; pointer-events: none; z-index: 9999;
         }
-
-        @keyframes rippleAnim {
-            to { transform: scale(1.5); opacity: 0; }
-        }
+        @keyframes rippleAnim { to { transform: scale(1.5); opacity: 0; } }
 
         body {
             min-height: 100vh;
             background: linear-gradient(135deg, #1a4a6f, #2c7ab1, #4a9fcf);
-            background-size: 200% 200%;
-            animation: gradientShift 10s ease infinite;
-            position: relative;
-            overflow-x: hidden;
+            background-size: 200% 200%; animation: gradientShift 10s ease infinite;
+            position: relative; overflow-x: hidden;
         }
 
         .cloud {
-            position: fixed;
-            background: rgba(255, 255, 255, 0.85);
-            border-radius: 1000px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-            z-index: 0;
-            pointer-events: none;
+            position: fixed; background: rgba(255,255,255,0.85); border-radius: 1000px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05); z-index: 0; pointer-events: none;
         }
-
-        .cloud::before, .cloud::after {
-            content: '';
-            position: absolute;
-            background: inherit;
-            border-radius: 50%;
-        }
-
+        .cloud::before, .cloud::after { content: ''; position: absolute; background: inherit; border-radius: 50%; }
         .cloud1 { top: 10%; left: -150px; width: 180px; height: 100px; animation: floatCloud1 20s linear infinite; }
         .cloud1::before { width: 70px; height: 70px; top: -35px; left: 20px; }
         .cloud1::after { width: 100px; height: 100px; top: -50px; left: 70px; }
-
         .cloud2 { bottom: 15%; right: -150px; width: 200px; height: 110px; animation: floatCloud2 25s linear infinite; }
         .cloud2::before { width: 80px; height: 80px; top: -40px; left: 25px; }
         .cloud2::after { width: 110px; height: 110px; top: -55px; left: 80px; }
-
         .cloud3 { top: 50%; right: 10%; width: 140px; height: 80px; animation: floatCloud3 18s linear infinite; opacity: 0.6; }
         .cloud3::before { width: 55px; height: 55px; top: -28px; left: 15px; }
         .cloud3::after { width: 80px; height: 80px; top: -40px; left: 55px; }
-
         .cloud4 { top: 70%; left: 20%; width: 120px; height: 70px; animation: floatCloud4 22s linear infinite; opacity: 0.5; }
         .cloud4::before { width: 50px; height: 50px; top: -25px; left: 15px; }
         .cloud4::after { width: 70px; height: 70px; top: -35px; left: 50px; }
@@ -107,148 +53,51 @@
         @keyframes floatCloud4 { from { transform: translateX(0); } to { transform: translateX(calc(-100vw - 200px)); } }
 
         .snow {
-            position: fixed;
-            top: -10px;
-            background: white;
-            border-radius: 50%;
-            opacity: 0.8;
-            pointer-events: none;
-            z-index: 999;
+            position: fixed; top: -10px; background: white; border-radius: 50%;
+            opacity: 0.8; pointer-events: none; z-index: 999;
             animation: fall linear forwards;
         }
-
-        @keyframes fall {
-            to { transform: translateY(100vh); opacity: 0; }
-        }
+        @keyframes fall { to { transform: translateY(100vh); opacity: 0; } }
 
         .login-box {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(20, 50, 70, 0.92);
-            padding: 40px;
-            border-radius: 28px;
-            text-align: center;
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(200, 230, 255, 0.5);
-            width: 340px;
-            z-index: 101;
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: rgba(20, 50, 70, 0.92); padding: 40px; border-radius: 28px;
+            text-align: center; backdrop-filter: blur(15px);
+            border: 1px solid rgba(200,230,255,0.5); width: 340px; z-index: 101;
             animation: fadeIn 0.6s ease-out, glowPulse 3s infinite;
         }
-
         .login-box h2 { color: #d4f1ff; margin-bottom: 25px; font-size: 28px; }
-        .login-box input {
-            width: 100%; padding: 14px; margin: 12px 0;
-            border: none; border-radius: 40px;
-            background: rgba(255, 255, 255, 0.95);
-            font-size: 16px;
-        }
-        .login-box button {
-            width: 100%; padding: 14px; margin-top: 15px;
-            border: none; border-radius: 40px;
-            background: linear-gradient(135deg, #2c7ab1, #4a9fcf);
-            color: white; font-weight: bold; cursor: pointer;
-        }
+        .login-box input { width: 100%; padding: 14px; margin: 12px 0; border: none; border-radius: 40px; background: rgba(255,255,255,0.95); font-size: 16px; }
+        .login-box button { width: 100%; padding: 14px; margin-top: 15px; border: none; border-radius: 40px; background: linear-gradient(135deg, #2c7ab1, #4a9fcf); color: white; font-weight: bold; cursor: pointer; }
         .error { color: #ffb4a2; margin-top: 15px; }
 
         .app { display: flex; min-height: 100vh; position: relative; z-index: 1; }
-        .sidebar {
-            width: 380px;
-            background: rgba(15, 45, 65, 0.88);
-            backdrop-filter: blur(12px);
-            padding: 25px;
-            color: white;
-            overflow-y: auto;
-            border-right: 1px solid rgba(150, 200, 255, 0.3);
-        }
+        .sidebar { width: 380px; background: rgba(15,45,65,0.88); backdrop-filter: blur(12px); padding: 25px; color: white; overflow-y: auto; border-right: 1px solid rgba(150,200,255,0.3); }
         .sidebar h3 { color: #c5e8ff; margin-bottom: 25px; border-left: 3px solid #7ec8e0; padding-left: 12px; }
         .menu-item { margin-bottom: 8px; }
-        .menu-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(60, 120, 150, 0.5);
-            border-radius: 14px;
-            padding: 12px 15px;
-            cursor: pointer;
-            transition: 0.25s;
-        }
+        .menu-header { display: flex; justify-content: space-between; align-items: center; background: rgba(60,120,150,0.5); border-radius: 14px; padding: 12px 15px; cursor: pointer; transition: 0.25s; }
         .menu-header:hover { background: #3a7ca0; transform: translateX(5px); }
-        .menu-title { display: flex; gap: 10px; flex: 1; font-weight: 500; }
+        .menu-title { flex: 1; font-weight: 500; }
         .menu-controls { display: flex; gap: 5px; }
-        .menu-controls button {
-            background: rgba(0,0,0,0.6);
-            border: none;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 11px;
-        }
+        .menu-controls button { background: rgba(0,0,0,0.6); border: none; color: white; padding: 4px 10px; border-radius: 8px; cursor: pointer; font-size: 12px; }
         .menu-controls button:hover { background: rgba(0,0,0,0.9); }
         .delete-btn:hover { background: #c0392b !important; }
 
         .submenu { margin-left: 25px; margin-top: 8px; margin-bottom: 12px; display: none; }
         .submenu.open { display: block; animation: dropdownOpen 0.3s ease-out; }
-        .submenu-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(40, 90, 115, 0.6);
-            border-radius: 12px;
-            padding: 8px 12px;
-            margin: 5px 0;
-            cursor: pointer;
-            transition: 0.2s;
-        }
+        .submenu-item { display: flex; justify-content: space-between; align-items: center; background: rgba(40,90,115,0.6); border-radius: 12px; padding: 8px 12px; margin: 5px 0; cursor: pointer; transition: 0.2s; }
         .submenu-item:hover { background: #4a8fb0; }
         .submenu-title { flex: 1; font-size: 13px; }
         .submenu-controls { display: flex; gap: 4px; }
-        .submenu-controls button {
-            background: rgba(0,0,0,0.5);
-            border: none;
-            color: white;
-            padding: 3px 7px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 10px;
-        }
-        .submenu-controls button:hover { background: rgba(0,0,0,0.8); }
-        .add-submenu {
-            background: rgba(60, 120, 150, 0.4);
-            border: 1px dashed #7ec8e0;
-            border-radius: 12px;
-            padding: 8px 14px;
-            margin-top: 10px;
-            text-align: center;
-            cursor: pointer;
-            font-size: 12px;
-        }
+        .submenu-controls button { background: rgba(0,0,0,0.5); border: none; color: white; padding: 3px 8px; border-radius: 6px; cursor: pointer; font-size: 10px; }
+        .add-submenu { background: rgba(60,120,150,0.4); border: 1px dashed #7ec8e0; border-radius: 12px; padding: 8px 14px; margin-top: 10px; text-align: center; cursor: pointer; font-size: 12px; }
         .add-submenu:hover { background: #4a8fb0; }
 
-        .content {
-            flex: 1;
-            padding: 35px;
-            background: rgba(0, 30, 45, 0.4);
-            backdrop-filter: blur(6px);
-        }
-        textarea {
-            width: 100%; padding: 18px;
-            background: rgba(25, 65, 85, 0.92);
-            border: 1px solid #7ec8e0;
-            color: white;
-            border-radius: 20px;
-            font-size: 16px;
-            min-height: 450px;
-        }
-        button {
-            background: linear-gradient(135deg, #2c7ab1, #4a9fcf);
-            border: none; padding: 12px 28px;
-            border-radius: 40px; color: white;
-            cursor: pointer; margin-top: 20px; margin-right: 12px;
-        }
-        .global-actions { margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(126, 200, 224, 0.3); }
+        .content { flex: 1; padding: 35px; background: rgba(0,30,45,0.4); backdrop-filter: blur(6px); }
+        textarea { width: 100%; padding: 18px; background: rgba(25,65,85,0.92); border: 1px solid #7ec8e0; color: white; border-radius: 20px; font-size: 16px; min-height: 450px; }
+        .action-buttons { margin-top: 20px; display: flex; gap: 15px; }
+        .action-buttons button { background: linear-gradient(135deg, #2c7ab1, #4a9fcf); border: none; padding: 12px 28px; border-radius: 40px; color: white; cursor: pointer; margin: 0; }
+        .global-actions { margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(126,200,224,0.3); }
         .global-actions button { width: 100%; }
 
         @media (max-width: 768px) { .sidebar { width: 320px; } .content { padding: 20px; } }
@@ -284,7 +133,7 @@
             <div id="contentArea">
                 <textarea id="mainEditor" placeholder="Pilih menu di samping kiri..."></textarea>
             </div>
-            <div>
+            <div class="action-buttons">
                 <button onclick="saveData()">💾 SAVE</button>
                 <button onclick="undoData()">↩️ UNDO</button>
             </div>
@@ -293,7 +142,7 @@
 </div>
 
 <script>
-    // RIPPLE
+    // RIPPLE KLIK
     function createRipple(event) {
         const ripple = document.createElement('div');
         ripple.className = 'ripple';
@@ -323,7 +172,7 @@
     }
     setInterval(createSnow, 100);
 
-    // DATA
+    // ==================== DATA AWAL ====================
     let menus = [
         { id: "notepad", display: "📝 Notepad", type: "editor", content: "", subitems: [] },
         { id: "hotkeys", display: "⚡ Hotkeys", type: "text", content: "✨ CTRL + S = Save\n✨ CTRL + Z = Undo\n✨ Klik ↑↓ untuk pindah menu\n✨ Klik 🗑️ untuk hapus menu", subitems: [] },
@@ -335,23 +184,42 @@
         ]}
     ];
 
-    let currentMenu = null, currentSubmenu = null, currentSubmenuParent = null, historyData = [];
+    let currentMenu = null;
+    let currentSubmenu = null;
+    let historyData = [];
 
-    function saveAllData() { localStorage.setItem("master_hans_data", JSON.stringify(menus)); }
+    // ==================== FUNGSI DASAR ====================
+    function saveAllData() {
+        localStorage.setItem("master_hans_final", JSON.stringify(menus));
+    }
+
     function loadAllData() {
-        let saved = localStorage.getItem("master_hans_data");
-        if(saved) menus = JSON.parse(saved);
-        menus.forEach(m => { if(!m.subitems) m.subitems = []; });
+        let saved = localStorage.getItem("master_hans_final");
+        if(saved) {
+            menus = JSON.parse(saved);
+        }
+        menus.forEach(m => {
+            if(!m.subitems) m.subitems = [];
+        });
         renderSidebar();
     }
-    function saveHistory() { historyData.push(JSON.parse(JSON.stringify(menus))); if(historyData.length > 20) historyData.shift(); }
 
+    function saveHistory() {
+        historyData.push(JSON.parse(JSON.stringify(menus)));
+        if(historyData.length > 20) historyData.shift();
+    }
+
+    // ==================== RENDER SIDEBAR ====================
     function renderSidebar() {
         const container = document.getElementById("menuContainer");
         if(!container) return;
         container.innerHTML = "";
         
-        menus.forEach((menu, menuIdx) => {
+        for(let i = 0; i < menus.length; i++) {
+            const menu = menus[i];
+            const menuIdx = i;
+            
+            // Main menu item
             const menuDiv = document.createElement("div");
             menuDiv.className = "menu-item";
             
@@ -360,41 +228,45 @@
             
             const titleSpan = document.createElement("div");
             titleSpan.className = "menu-title";
-            titleSpan.innerHTML = menu.display;
+            titleSpan.textContent = menu.display;
             titleSpan.onclick = () => openMainMenu(menu);
             
             const controls = document.createElement("div");
             controls.className = "menu-controls";
             
-            // Tombol UP menu utama
+            // Tombol UP
             if(menuIdx > 0) {
                 const upBtn = document.createElement("button");
-                upBtn.innerHTML = "↑";
+                upBtn.textContent = "↑";
                 upBtn.onclick = (e) => {
                     e.stopPropagation();
-                    [menus[menuIdx-1], menus[menuIdx]] = [menus[menuIdx], menus[menuIdx-1]];
+                    const temp = menus[menuIdx];
+                    menus[menuIdx] = menus[menuIdx - 1];
+                    menus[menuIdx - 1] = temp;
                     saveAllData();
                     renderSidebar();
                 };
                 controls.appendChild(upBtn);
             }
             
-            // Tombol DOWN menu utama
+            // Tombol DOWN
             if(menuIdx < menus.length - 1) {
                 const downBtn = document.createElement("button");
-                downBtn.innerHTML = "↓";
+                downBtn.textContent = "↓";
                 downBtn.onclick = (e) => {
                     e.stopPropagation();
-                    [menus[menuIdx], menus[menuIdx+1]] = [menus[menuIdx+1], menus[menuIdx]];
+                    const temp = menus[menuIdx];
+                    menus[menuIdx] = menus[menuIdx + 1];
+                    menus[menuIdx + 1] = temp;
                     saveAllData();
                     renderSidebar();
                 };
                 controls.appendChild(downBtn);
             }
             
-            // Tombol DELETE menu utama
+            // Tombol DELETE
             const delBtn = document.createElement("button");
-            delBtn.innerHTML = "🗑️";
+            delBtn.textContent = "🗑️";
             delBtn.className = "delete-btn";
             delBtn.onclick = (e) => {
                 e.stopPropagation();
@@ -410,83 +282,94 @@
             header.appendChild(controls);
             menuDiv.appendChild(header);
             
-            // SUBMENU (point-point kecil)
+            // Submenu section
             const submenuDiv = document.createElement("div");
             submenuDiv.className = "submenu";
             
-            menu.subitems.forEach((sub, subIdx) => {
+            for(let j = 0; j < menu.subitems.length; j++) {
+                const sub = menu.subitems[j];
+                const subIdx = j;
+                
                 const subItem = document.createElement("div");
                 subItem.className = "submenu-item";
                 
                 const subTitle = document.createElement("div");
                 subTitle.className = "submenu-title";
-                subTitle.innerHTML = sub.display;
+                subTitle.textContent = sub.display;
                 subTitle.onclick = () => openSubmenu(menu, subIdx);
                 
                 const subControls = document.createElement("div");
                 subControls.className = "submenu-controls";
                 
-                // Tombol UP point kecil
+                // Tombol UP submenu
                 if(subIdx > 0) {
-                    const upSubBtn = document.createElement("button");
-                    upSubBtn.innerHTML = "↑";
-                    upSubBtn.onclick = (e) => {
+                    const upSub = document.createElement("button");
+                    upSub.textContent = "↑";
+                    upSub.onclick = (e) => {
                         e.stopPropagation();
-                        [menu.subitems[subIdx-1], menu.subitems[subIdx]] = [menu.subitems[subIdx], menu.subitems[subIdx-1]];
+                        const temp = menu.subitems[subIdx];
+                        menu.subitems[subIdx] = menu.subitems[subIdx - 1];
+                        menu.subitems[subIdx - 1] = temp;
                         saveAllData();
                         renderSidebar();
                     };
-                    subControls.appendChild(upSubBtn);
+                    subControls.appendChild(upSub);
                 }
                 
-                // Tombol DOWN point kecil
+                // Tombol DOWN submenu
                 if(subIdx < menu.subitems.length - 1) {
-                    const downSubBtn = document.createElement("button");
-                    downSubBtn.innerHTML = "↓";
-                    downSubBtn.onclick = (e) => {
+                    const downSub = document.createElement("button");
+                    downSub.textContent = "↓";
+                    downSub.onclick = (e) => {
                         e.stopPropagation();
-                        [menu.subitems[subIdx], menu.subitems[subIdx+1]] = [menu.subitems[subIdx+1], menu.subitems[subIdx]];
+                        const temp = menu.subitems[subIdx];
+                        menu.subitems[subIdx] = menu.subitems[subIdx + 1];
+                        menu.subitems[subIdx + 1] = temp;
                         saveAllData();
                         renderSidebar();
                     };
-                    subControls.appendChild(downSubBtn);
+                    subControls.appendChild(downSub);
                 }
                 
-                // Tombol DELETE point kecil
-                const delSubBtn = document.createElement("button");
-                delSubBtn.innerHTML = "🗑️";
-                delSubBtn.onclick = (e) => {
+                // Tombol DELETE submenu
+                const delSub = document.createElement("button");
+                delSub.textContent = "🗑️";
+                delSub.onclick = (e) => {
                     e.stopPropagation();
-                    if(confirm(`Hapus point "${sub.display}" dari ${menu.display}?`)) {
+                    if(confirm(`Hapus point "${sub.display}"?`)) {
                         menu.subitems.splice(subIdx, 1);
                         saveAllData();
                         renderSidebar();
                         if(currentSubmenu === sub) {
                             currentSubmenu = null;
-                            document.getElementById("contentArea").innerHTML = "<div style='color:white; padding:40px;'>✨ Pilih menu atau point di samping kiri ✨</div>";
+                            document.getElementById("contentArea").innerHTML = "<div style='color:white; padding:40px;'>✨ Pilih menu di samping kiri ✨</div>";
                         }
                     }
                 };
-                subControls.appendChild(delSubBtn);
+                subControls.appendChild(delSub);
                 
                 subItem.appendChild(subTitle);
                 subItem.appendChild(subControls);
                 submenuDiv.appendChild(subItem);
-            });
+            }
             
-            // Tombol tambah point kecil
-            const addSubBtn = document.createElement("div");
-            addSubBtn.className = "add-submenu";
-            addSubBtn.innerHTML = "+ Tambah Point Kecil";
-            addSubBtn.onclick = () => {
-                let nama = prompt("Nama point kecil:", "Point Baru");
+            // Tombol tambah submenu
+            const addSub = document.createElement("div");
+            addSub.className = "add-submenu";
+            addSub.textContent = "+ Tambah Point Kecil";
+            addSub.onclick = () => {
+                const nama = prompt("Nama point kecil:", "Point Baru");
                 if(nama && nama.trim()) {
-                    menu.subitems.push({ id: Date.now(), display: nama.trim(), content: "" });
+                    menu.subitems.push({
+                        id: Date.now(),
+                        display: nama.trim(),
+                        content: ""
+                    });
                     saveAllData();
                     renderSidebar();
                 }
             };
-            submenuDiv.appendChild(addSubBtn);
+            submenuDiv.appendChild(addSub);
             menuDiv.appendChild(submenuDiv);
             
             // Toggle submenu
@@ -496,76 +379,90 @@
             };
             
             container.appendChild(menuDiv);
-        });
+        }
     }
 
+    // ==================== OPEN MENU ====================
     function openMainMenu(menu) {
         currentMenu = menu;
         currentSubmenu = null;
-        currentSubmenuParent = null;
-        let div = document.getElementById("contentArea");
+        const div = document.getElementById("contentArea");
+        
         if(menu.type === "editor") {
-            div.innerHTML = `<textarea id="mainEditor">${menu.content || ""}</textarea>`;
+            div.innerHTML = `<textarea id="mainEditor" placeholder="Tulis catatan di sini...">${menu.content || ""}</textarea>`;
         } else if(menu.type === "text") {
             div.innerHTML = `<div style="color:white; white-space:pre-wrap; font-size:16px; line-height:1.8;">${menu.content || ""}</div>`;
         } else if(menu.type === "todo") {
-            let list = [];
-            try { list = JSON.parse(menu.content || "[]"); } catch(e) {}
-            let html = `<input type="text" id="newTodo" placeholder="Tugas baru..." style="width:70%; padding:10px; border-radius:40px; border:none;">
-                        <button onclick="addTodoItem()">➕ Tambah</button>
-                        <ul style="margin-top:20px;">`;
-            list.forEach((item, i) => {
+            let todoList = [];
+            try { todoList = JSON.parse(menu.content || "[]"); } catch(e) { todoList = []; }
+            let html = `<div>
+                <input type="text" id="newTodo" placeholder="Tugas baru..." style="width:70%; padding:10px; border-radius:40px; border:none;">
+                <button onclick="addTodoItem()" style="margin-top:0;">➕ Tambah</button>
+                <ul style="margin-top:20px;">`;
+            for(let i = 0; i < todoList.length; i++) {
                 html += `<li style="color:white; margin:10px 0; padding:8px; background:rgba(255,255,255,0.1); border-radius:12px; display:flex; justify-content:space-between;">
-                            <span>📌 ${item}</span>
-                            <button onclick="deleteTodoItem(${i})">❌ Hapus</button>
+                            <span>📌 ${todoList[i]}</span>
+                            <button onclick="deleteTodoItem(${i})" style="margin:0; padding:6px 12px;">❌ Hapus</button>
                         </li>`;
-            });
-            html += `</ul>`;
+            }
+            html += `</ul></div>`;
             div.innerHTML = html;
         } else {
-            div.innerHTML = `<textarea id="mainEditor">${menu.content || ""}</textarea>`;
+            div.innerHTML = `<textarea id="mainEditor" placeholder="Tulis catatan di sini...">${menu.content || ""}</textarea>`;
         }
     }
 
     function openSubmenu(menu, subIdx) {
         currentMenu = menu;
         currentSubmenu = menu.subitems[subIdx];
-        currentSubmenuParent = menu;
-        document.getElementById("contentArea").innerHTML = `<textarea id="subEditor">${currentSubmenu.content || ""}</textarea>`;
+        document.getElementById("contentArea").innerHTML = `<textarea id="subEditor" placeholder="Tulis catatan untuk ${currentSubmenu.display}...">${currentSubmenu.content || ""}</textarea>`;
     }
 
+    // ==================== TODO FUNCTIONS ====================
     function addTodoItem() {
-        let inp = document.getElementById("newTodo");
-        if(inp && inp.value.trim()) {
-            let menu = menus.find(m => m.type === "todo");
+        const input = document.getElementById("newTodo");
+        if(input && input.value.trim()) {
+            const menu = menus.find(m => m.type === "todo");
+            if(menu) {
+                let list = JSON.parse(menu.content || "[]");
+                list.push(input.value.trim());
+                menu.content = JSON.stringify(list);
+                saveAllData();
+                openMainMenu(menu);
+            }
+        }
+    }
+
+    function deleteTodoItem(idx) {
+        const menu = menus.find(m => m.type === "todo");
+        if(menu) {
             let list = JSON.parse(menu.content || "[]");
-            list.push(inp.value.trim());
+            list.splice(idx, 1);
             menu.content = JSON.stringify(list);
             saveAllData();
             openMainMenu(menu);
         }
     }
-    
-    function deleteTodoItem(idx) {
-        let menu = menus.find(m => m.type === "todo");
-        let list = JSON.parse(menu.content || "[]");
-        list.splice(idx, 1);
-        menu.content = JSON.stringify(list);
-        saveAllData();
-        openMainMenu(menu);
-    }
 
+    // ==================== MENU FUNCTIONS ====================
     function tambahMenuBaru() {
-        let nama = prompt("Nama menu baru:", "Menu Baru");
+        const nama = prompt("Nama menu baru:", "Menu Baru");
         if(nama && nama.trim()) {
-            menus.push({ id: Date.now(), display: nama.trim(), type: "editor", content: "", subitems: [] });
+            menus.push({
+                id: Date.now(),
+                display: nama.trim(),
+                type: "editor",
+                content: "",
+                subitems: []
+            });
             saveAllData();
             renderSidebar();
         }
     }
 
+    // ==================== SAVE & UNDO ====================
     function saveData() {
-        let editor = document.getElementById("mainEditor") || document.getElementById("subEditor");
+        const editor = document.getElementById("mainEditor") || document.getElementById("subEditor");
         if(editor && currentSubmenu) {
             currentSubmenu.content = editor.value;
         } else if(editor && currentMenu && currentMenu.type !== "todo" && currentMenu.type !== "text") {
@@ -575,7 +472,7 @@
         saveHistory();
         alert("✅ Data tersimpan!");
     }
-    
+
     function undoData() {
         if(historyData.length === 0) {
             alert("⚠️ Tidak ada data untuk undo");
@@ -587,9 +484,11 @@
         alert("↩️ Undo berhasil");
     }
 
+    // ==================== LOGIN ====================
     function doLogin() {
-        let id = document.getElementById("userId").value.trim();
-        let pass = document.getElementById("userPass").value.trim();
+        const id = document.getElementById("userId").value.trim();
+        const pass = document.getElementById("userPass").value.trim();
+        
         if(id === "admin" && pass === "101010") {
             document.getElementById("loginScreen").style.display = "none";
             document.getElementById("mainApp").style.display = "block";
@@ -600,9 +499,19 @@
         }
     }
 
+    // Keyboard shortcuts
     document.addEventListener("keydown", function(e) {
-        if(e.ctrlKey && e.key === 's') { e.preventDefault(); saveData(); }
-        if(e.ctrlKey && e.key === 'z') { e.preventDefault(); undoData(); }
+        const mainApp = document.getElementById("mainApp");
+        if(mainApp && mainApp.style.display === "block") {
+            if(e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                saveData();
+            }
+            if(e.ctrlKey && e.key === 'z') {
+                e.preventDefault();
+                undoData();
+            }
+        }
     });
 </script>
 </body>
