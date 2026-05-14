@@ -772,21 +772,23 @@
     }
     
     // ==================== LOGIN ====================
-    function doLogin() {
-        let id = document.getElementById("userId").value;
-        let pass = document.getElementById("userPass").value;
-        
-        if(id === "admin" && pass === "101010") {
-            document.getElementById("loginScreen").style.display = "none";
-            document.getElementById("mainApp").style.display = "block";
-            loadAllData();
-            saveHistory();
-            showToast("✨ Selamat datang! ✨");
-        } else {
-            document.getElementById("loginError").innerText = "❌ ID atau Password salah!";
-        }
-    }
+function doLogin() {
+    let id = document.getElementById("userId").value.trim();
+    let pass = document.getElementById("userPass").value.trim();
     
+    console.log("ID masuk:", id);
+    console.log("Password masuk:", pass);
+    
+    if(id === "admin" && pass === "101010") {
+        document.getElementById("loginScreen").style.display = "none";
+        document.getElementById("mainApp").style.display = "block";
+        loadAllData();
+        saveHistory();
+        showToast("✨ Selamat datang! ✨");
+    } else {
+        document.getElementById("loginError").innerHTML = "❌ Login gagal!<br>ID: admin | Password: 1234";
+    }
+}
     // Keyboard shortcuts
     document.addEventListener("keydown", function(e) {
         if(document.getElementById("mainApp").style.display === "block") {
