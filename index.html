@@ -4,26 +4,260 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MASTER HANS - Winter Panel</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, 'Segoe UI', 'Poppins', sans-serif;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes glowPulse {
+            0% { box-shadow: 0 0 5px rgba(150, 200, 255, 0.3); }
+            50% { box-shadow: 0 0 25px rgba(150, 200, 255, 0.6); }
+            100% { box-shadow: 0 0 5px rgba(150, 200, 255, 0.3); }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes dropdownOpen {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Ripple kecil */
+        .ripple {
+            position: fixed;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.3) 60%, rgba(255,255,255,0) 80%);
+            width: 50px;
+            height: 50px;
+            transform: scale(0);
+            animation: rippleAnim 0.4s ease-out;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        @keyframes rippleAnim {
+            to { transform: scale(1.5); opacity: 0; }
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a4a6f, #2c7ab1, #4a9fcf);
+            background-size: 200% 200%;
+            animation: gradientShift 10s ease infinite;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Awan */
+        .cloud {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 1000px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .cloud::before, .cloud::after {
+            content: '';
+            position: absolute;
+            background: inherit;
+            border-radius: 50%;
+        }
+
+        .cloud1 { top: 10%; left: -150px; width: 180px; height: 100px; animation: floatCloud1 20s linear infinite; }
+        .cloud1::before { width: 70px; height: 70px; top: -35px; left: 20px; }
+        .cloud1::after { width: 100px; height: 100px; top: -50px; left: 70px; }
+
+        .cloud2 { bottom: 15%; right: -150px; width: 200px; height: 110px; animation: floatCloud2 25s linear infinite; }
+        .cloud2::before { width: 80px; height: 80px; top: -40px; left: 25px; }
+        .cloud2::after { width: 110px; height: 110px; top: -55px; left: 80px; }
+
+        .cloud3 { top: 50%; right: 10%; width: 140px; height: 80px; animation: floatCloud3 18s linear infinite; opacity: 0.6; }
+        .cloud3::before { width: 55px; height: 55px; top: -28px; left: 15px; }
+        .cloud3::after { width: 80px; height: 80px; top: -40px; left: 55px; }
+
+        .cloud4 { top: 70%; left: 20%; width: 120px; height: 70px; animation: floatCloud4 22s linear infinite; opacity: 0.5; }
+        .cloud4::before { width: 50px; height: 50px; top: -25px; left: 15px; }
+        .cloud4::after { width: 70px; height: 70px; top: -35px; left: 50px; }
+
+        @keyframes floatCloud1 { from { transform: translateX(0); } to { transform: translateX(calc(100vw + 200px)); } }
+        @keyframes floatCloud2 { from { transform: translateX(0); } to { transform: translateX(calc(-100vw - 250px)); } }
+        @keyframes floatCloud3 { from { transform: translateX(0); } to { transform: translateX(calc(100vw + 200px)); } }
+        @keyframes floatCloud4 { from { transform: translateX(0); } to { transform: translateX(calc(-100vw - 200px)); } }
+
+        /* Salju */
+        .snow {
+            position: fixed;
+            top: -10px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+            pointer-events: none;
+            z-index: 999;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(100vh); opacity: 0; }
+        }
+
+        /* Login Box */
+        .login-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(20, 50, 70, 0.92);
+            padding: 40px;
+            border-radius: 28px;
+            text-align: center;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(200, 230, 255, 0.5);
+            width: 340px;
+            z-index: 101;
+            animation: fadeIn 0.6s ease-out, glowPulse 3s infinite;
+        }
+
+        .login-box h2 { color: #d4f1ff; margin-bottom: 25px; font-size: 28px; }
+        .login-box input {
+            width: 100%; padding: 14px; margin: 12px 0;
+            border: none; border-radius: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            font-size: 16px;
+        }
+        .login-box button {
+            width: 100%; padding: 14px; margin-top: 15px;
+            border: none; border-radius: 40px;
+            background: linear-gradient(135deg, #2c7ab1, #4a9fcf);
+            color: white; font-weight: bold; cursor: pointer;
+        }
+        .error { color: #ffb4a2; margin-top: 15px; }
+
+        /* Main App */
+        .app { display: flex; min-height: 100vh; position: relative; z-index: 1; }
+        .sidebar {
+            width: 330px;
+            background: rgba(15, 45, 65, 0.88);
+            backdrop-filter: blur(12px);
+            padding: 25px;
+            color: white;
+            overflow-y: auto;
+            border-right: 1px solid rgba(150, 200, 255, 0.3);
+        }
+        .sidebar h3 { color: #c5e8ff; margin-bottom: 25px; border-left: 3px solid #7ec8e0; padding-left: 12px; }
+        .menu-item { margin-bottom: 8px; }
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(60, 120, 150, 0.5);
+            border-radius: 14px;
+            padding: 12px 15px;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+        .menu-header:hover { background: #3a7ca0; transform: translateX(5px); }
+        .menu-title { display: flex; gap: 10px; flex: 1; font-weight: 500; }
+        .menu-controls { display: flex; gap: 6px; opacity: 0; transition: 0.2s; }
+        .menu-header:hover .menu-controls { opacity: 1; }
+        .menu-controls button {
+            background: rgba(0,0,0,0.5); border: none; color: white;
+            padding: 5px 10px; border-radius: 10px; cursor: pointer;
+        }
+        .delete-btn:hover { background: #c0392b !important; }
+
+        .submenu { margin-left: 25px; margin-top: 8px; margin-bottom: 12px; display: none; }
+        .submenu.open { display: block; animation: dropdownOpen 0.3s ease-out; }
+        .submenu-item {
+            background: rgba(40, 90, 115, 0.6);
+            border-radius: 12px;
+            padding: 10px 14px;
+            margin: 6px 0;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .submenu-item:hover { background: #4a8fb0; transform: translateX(5px); }
+        .add-submenu {
+            background: rgba(60, 120, 150, 0.4);
+            border: 1px dashed #7ec8e0;
+            border-radius: 12px;
+            padding: 8px 14px;
+            margin-top: 10px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .add-submenu:hover { background: #4a8fb0; }
+
+        .content {
+            flex: 1;
+            padding: 35px;
+            background: rgba(0, 30, 45, 0.4);
+            backdrop-filter: blur(6px);
+        }
+        textarea {
+            width: 100%; padding: 18px;
+            background: rgba(25, 65, 85, 0.92);
+            border: 1px solid #7ec8e0;
+            color: white;
+            border-radius: 20px;
+            font-size: 16px;
+            min-height: 450px;
+        }
+        button {
+            background: linear-gradient(135deg, #2c7ab1, #4a9fcf);
+            border: none; padding: 12px 28px;
+            border-radius: 40px; color: white;
+            cursor: pointer; margin-top: 20px; margin-right: 12px;
+        }
+        .global-actions { margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(126, 200, 224, 0.3); }
+        .global-actions button { width: 100%; }
+
+        @media (max-width: 768px) { .sidebar { width: 280px; } .content { padding: 20px; } }
+    </style>
 </head>
 <body>
 
-<!-- Background Awan (selalu ada) -->
+<!-- Awan -->
 <div class="cloud cloud1"></div>
 <div class="cloud cloud2"></div>
 <div class="cloud cloud3"></div>
 <div class="cloud cloud4"></div>
 
+<!-- Login -->
 <div id="loginScreen">
     <div class="login-box">
         <h2>❄️ MASTER HANS ❄️</h2>
-        <input type="text" id="userId" placeholder="Username" autocomplete="off">
+        <input type="text" id="userId" placeholder="Username">
         <input type="password" id="userPass" placeholder="Password">
         <button onclick="doLogin()">🔓 MASUK</button>
         <div id="loginError" class="error"></div>
     </div>
 </div>
 
+<!-- Main App -->
 <div id="mainApp" style="display: none;">
     <div class="app">
         <div class="sidebar">
@@ -45,6 +279,186 @@
     </div>
 </div>
 
-<script src="script.js"></script>
+<script>
+    // ==================== RIPPLE KLIK (kecil) ====================
+    function createRipple(event) {
+        const ripple = document.createElement('div');
+        ripple.className = 'ripple';
+        ripple.style.left = (event.clientX - 25) + 'px';
+        ripple.style.top = (event.clientY - 25) + 'px';
+        document.body.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 400);
+    }
+    document.addEventListener('click', function(e) {
+        if(!e.target.closest('.menu-controls') && !e.target.closest('.submenu-controls')) {
+            createRipple(e);
+        }
+    });
+
+    // ==================== SALJU TURUN ====================
+    function createSnow() {
+        const snow = document.createElement('div');
+        snow.className = 'snow';
+        const size = Math.random() * 6 + 2;
+        snow.style.width = size + 'px';
+        snow.style.height = size + 'px';
+        snow.style.left = Math.random() * window.innerWidth + 'px';
+        snow.style.opacity = Math.random() * 0.7 + 0.3;
+        snow.style.animationDuration = Math.random() * 5 + 2 + 's';
+        document.body.appendChild(snow);
+        setTimeout(() => snow.remove(), 7000);
+    }
+    setInterval(createSnow, 100);
+
+    // ==================== DATA ====================
+    let menus = [
+        { id: "notepad", display: "📝 Notepad", type: "editor", content: "", subitems: [] },
+        { id: "hotkeys", display: "⚡ Hotkeys", type: "text", content: "✨ CTRL + S = Save\n✨ CTRL + Z = Undo", subitems: [] },
+        { id: "todo", display: "✅ To Do List", type: "todo", content: "[]", subitems: [] },
+        { id: "daftar_akun", display: "📂 Daftar Akun", type: "editor", content: "", subitems: [
+            { id: "bank", display: "🔹 Akun Bank", content: "" },
+            { id: "email", display: "🔹 Akun Email", content: "" }
+        ]}
+    ];
+
+    let currentMenu = null, currentSubmenu = null, historyData = [];
+
+    function saveAllData() { localStorage.setItem("master_hans_data", JSON.stringify(menus)); }
+    function loadAllData() {
+        let saved = localStorage.getItem("master_hans_data");
+        if(saved) menus = JSON.parse(saved);
+        menus.forEach(m => { if(!m.subitems) m.subitems = []; });
+        renderSidebar();
+    }
+    function saveHistory() { historyData.push(JSON.parse(JSON.stringify(menus))); if(historyData.length > 20) historyData.shift(); }
+
+    function renderSidebar() {
+        const container = document.getElementById("menuContainer");
+        if(!container) return;
+        container.innerHTML = "";
+        menus.forEach((menu, idx) => {
+            const div = document.createElement("div");
+            div.className = "menu-item";
+            const header = document.createElement("div");
+            header.className = "menu-header";
+            header.innerHTML = `<div class="menu-title">${menu.display}</div>`;
+            const controls = document.createElement("div");
+            controls.className = "menu-controls";
+            if(idx > 0) {
+                let up = document.createElement("button");
+                up.innerHTML = "↑";
+                up.onclick = (e) => { e.stopPropagation(); moveMenuUp(idx); };
+                controls.appendChild(up);
+            }
+            if(idx < menus.length-1) {
+                let down = document.createElement("button");
+                down.innerHTML = "↓";
+                down.onclick = (e) => { e.stopPropagation(); moveMenuDown(idx); };
+                controls.appendChild(down);
+            }
+            let del = document.createElement("button");
+            del.innerHTML = "🗑️";
+            del.className = "delete-btn";
+            del.onclick = (e) => { e.stopPropagation(); if(confirm(`Hapus ${menu.display}?`)) { menus.splice(idx,1); saveAllData(); renderSidebar(); } };
+            controls.appendChild(del);
+            header.appendChild(controls);
+            div.appendChild(header);
+
+            const subDiv = document.createElement("div");
+            subDiv.className = "submenu";
+            menu.subitems.forEach((sub, sidx) => {
+                let subItem = document.createElement("div");
+                subItem.className = "submenu-item";
+                subItem.innerHTML = sub.display;
+                subItem.onclick = () => openSubmenu(menu, sidx);
+                subDiv.appendChild(subItem);
+            });
+            let addBtn = document.createElement("div");
+            addBtn.className = "add-submenu";
+            addBtn.innerHTML = "+ Tambah Point Kecil";
+            addBtn.onclick = () => { let nama = prompt("Nama point:"); if(nama) { menu.subitems.push({ id: Date.now(), display: nama, content: "" }); saveAllData(); renderSidebar(); } };
+            subDiv.appendChild(addBtn);
+            div.appendChild(subDiv);
+
+            header.onclick = () => subDiv.classList.toggle("open");
+            container.appendChild(div);
+        });
+    }
+
+    function openMainMenu(menu) {
+        currentMenu = menu; currentSubmenu = null;
+        let div = document.getElementById("contentArea");
+        if(menu.type === "editor") div.innerHTML = `<textarea id="mainEditor">${menu.content || ""}</textarea>`;
+        else if(menu.type === "text") div.innerHTML = `<div style="color:white;">${menu.content || ""}</div>`;
+        else if(menu.type === "todo") {
+            let list = JSON.parse(menu.content || "[]");
+            let html = `<input type="text" id="newTodo" placeholder="Tugas baru..." style="width:70%; padding:10px;"><button onclick="addTodoItem()">Tambah</button><ul>`;
+            list.forEach((item,i) => html += `<li>${item} <button onclick="deleteTodoItem(${i})">❌</button></li>`);
+            html += `</ul>`;
+            div.innerHTML = html;
+        }
+    }
+
+    function openSubmenu(menu, idx) {
+        currentMenu = menu; currentSubmenu = menu.subitems[idx];
+        document.getElementById("contentArea").innerHTML = `<textarea id="subEditor">${currentSubmenu.content || ""}</textarea>`;
+    }
+
+    function addTodoItem() {
+        let inp = document.getElementById("newTodo");
+        if(inp && inp.value.trim()) {
+            let menu = menus.find(m => m.type === "todo");
+            let list = JSON.parse(menu.content || "[]");
+            list.push(inp.value.trim());
+            menu.content = JSON.stringify(list);
+            saveAllData();
+            openMainMenu(menu);
+        }
+    }
+    function deleteTodoItem(idx) {
+        let menu = menus.find(m => m.type === "todo");
+        let list = JSON.parse(menu.content || "[]");
+        list.splice(idx,1);
+        menu.content = JSON.stringify(list);
+        saveAllData();
+        openMainMenu(menu);
+    }
+
+    function moveMenuUp(idx) { if(idx>0) { [menus[idx-1], menus[idx]] = [menus[idx], menus[idx-1]]; saveAllData(); renderSidebar(); } }
+    function moveMenuDown(idx) { if(idx<menus.length-1) { [menus[idx], menus[idx+1]] = [menus[idx+1], menus[idx]]; saveAllData(); renderSidebar(); } }
+    function tambahMenuBaru() { let nama = prompt("Nama menu baru:"); if(nama) { menus.push({ id: Date.now(), display: nama, type: "editor", content: "", subitems: [] }); saveAllData(); renderSidebar(); } }
+
+    function saveData() {
+        let ed = document.getElementById("mainEditor") || document.getElementById("subEditor");
+        if(ed && currentSubmenu) currentSubmenu.content = ed.value;
+        else if(ed && currentMenu && currentMenu.type !== "todo") currentMenu.content = ed.value;
+        saveAllData(); saveHistory();
+        alert("✅ Tersimpan!");
+    }
+    function undoData() {
+        if(historyData.length === 0) return alert("Tidak ada undo");
+        menus = historyData.pop();
+        saveAllData(); renderSidebar();
+        alert("↩️ Undo berhasil");
+    }
+
+    function doLogin() {
+        let id = document.getElementById("userId").value.trim();
+        let pass = document.getElementById("userPass").value.trim();
+        if(id === "admin" && pass === "101010") {
+            document.getElementById("loginScreen").style.display = "none";
+            document.getElementById("mainApp").style.display = "block";
+            loadAllData();
+            saveHistory();
+        } else {
+            document.getElementById("loginError").innerHTML = "❌ Username atau Password salah!";
+        }
+    }
+
+    document.addEventListener("keydown", function(e) {
+        if(e.ctrlKey && e.key === 's') { e.preventDefault(); saveData(); }
+        if(e.ctrlKey && e.key === 'z') { e.preventDefault(); undoData(); }
+    });
+</script>
 </body>
 </html>
