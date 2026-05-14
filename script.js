@@ -2,19 +2,17 @@
 function createRipple(event) {
     const ripple = document.createElement('div');
     ripple.className = 'ripple';
-    // Ukuran kecil: antara 30px - 70px
-    const size = Math.random() * 40 + 30;
-    ripple.style.width = `${size}px`;
-    ripple.style.height = `${size}px`;
-    ripple.style.left = `${event.clientX - size/2}px`;
-    ripple.style.top = `${event.clientY - size/2}px`;
+    // Posisikan di titik klik
+    ripple.style.left = `${event.clientX - 25}px`;
+    ripple.style.top = `${event.clientY - 25}px`;
     document.body.appendChild(ripple);
-    setTimeout(() => ripple.remove(), 350);
+    setTimeout(() => ripple.remove(), 400);
 }
 
+// Pasang event listener untuk klik di seluruh halaman
 document.addEventListener('click', function(e) {
     // Jangan buat ripple di tombol kontrol biar tidak terlalu ramai
-    if(!e.target.closest('.menu-controls') && !e.target.closest('.submenu-controls') && !e.target.closest('button')) {
+    if(!e.target.closest('.menu-controls') && !e.target.closest('.submenu-controls')) {
         createRipple(e);
     }
 });
@@ -78,11 +76,11 @@ let currentSubmenu = null;
 let historyData = [];
 
 function saveAllData() {
-    localStorage.setItem("master_hans_winter_v3", JSON.stringify(menus));
+    localStorage.setItem("master_hans_winter_v4", JSON.stringify(menus));
 }
 
 function loadAllData() {
-    let saved = localStorage.getItem("master_hans_winter_v3");
+    let saved = localStorage.getItem("master_hans_winter_v4");
     if(saved) {
         menus = JSON.parse(saved);
     }
