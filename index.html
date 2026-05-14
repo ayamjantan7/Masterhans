@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Hans - Private Panel</title>
+    <title>Blue Tosca Premium - Multi Submenu</title>
     <style>
         * {
             margin: 0;
@@ -12,7 +12,6 @@
             font-family: system-ui, 'Segoe UI', 'Poppins', sans-serif;
         }
 
-        /* ============ ANIMASI GLOBAL ============ */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -40,27 +39,13 @@
             100% { background-position: 0% 50%; }
         }
 
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
-        @keyframes ripple {
-            0% { transform: scale(0); opacity: 0.5; }
-            100% { transform: scale(4); opacity: 0; }
-        }
-
         body {
             min-height: 100vh;
             background: linear-gradient(135deg, #0b3b3f, #1b7e7a, #0b3b3f);
             background-size: 200% 200%;
             animation: gradientShift 8s ease infinite;
-            position: relative;
-            overflow-x: hidden;
         }
 
-        /* Efek partikel bergerak di background */
         body::before {
             content: "";
             position: fixed;
@@ -68,17 +53,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
-                radial-gradient(circle at 20% 50%, rgba(77, 208, 193, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(77, 208, 193, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 40% 20%, rgba(77, 208, 193, 0.06) 0%, transparent 50%);
-            background-repeat: no-repeat;
+            background: radial-gradient(circle at 20% 50%, rgba(77, 208, 193, 0.08) 0%, transparent 50%);
             pointer-events: none;
             z-index: -1;
-            animation: float 15s ease-in-out infinite;
         }
 
-        /* Blur overlay */
         body::after {
             content: "";
             position: fixed;
@@ -91,7 +70,7 @@
             z-index: -1;
         }
 
-        /* ============ LOGIN BOX ============ */
+        /* LOGIN */
         .login-box {
             position: fixed;
             top: 50%;
@@ -106,20 +85,17 @@
             width: 340px;
             z-index: 100;
             animation: fadeIn 0.6s ease-out, glowPulse 3s infinite;
-            transition: all 0.3s ease;
         }
 
         .login-box:hover {
             transform: translate(-50%, -50%) scale(1.02);
             border-color: rgba(77, 208, 193, 0.9);
-            box-shadow: 0 0 30px rgba(77, 208, 193, 0.3);
         }
 
         .login-box h2 {
             color: #b2f0e8;
             margin-bottom: 25px;
             font-size: 28px;
-            animation: fadeIn 0.5s ease-out;
         }
 
         .login-box input {
@@ -137,7 +113,6 @@
             outline: none;
             transform: scale(1.02);
             box-shadow: 0 0 15px rgba(77, 208, 193, 0.5);
-            background: white;
         }
 
         .login-box button {
@@ -152,8 +127,6 @@
             cursor: pointer;
             font-size: 16px;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
 
         .login-box button:hover {
@@ -161,54 +134,28 @@
             box-shadow: 0 8px 25px rgba(31, 138, 130, 0.4);
         }
 
-        .login-box button:active {
-            transform: translateY(1px);
-        }
-
-        /* Ripple effect */
-        .login-box button::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .login-box button:active::after {
-            width: 200px;
-            height: 200px;
-            opacity: 0;
-        }
-
         .error {
             color: #ffb4a2;
             margin-top: 15px;
             font-size: 14px;
-            animation: fadeIn 0.3s ease-out;
         }
 
-        /* ============ MAIN APP ============ */
+        /* MAIN APP */
         .app {
             display: flex;
             min-height: 100vh;
             animation: fadeIn 0.5s ease-out;
         }
 
-        /* ============ SIDEBAR ============ */
+        /* SIDEBAR */
         .sidebar {
-            width: 310px;
+            width: 330px;
             background: rgba(10, 45, 50, 0.92);
             backdrop-filter: blur(12px);
             padding: 25px;
             color: white;
             overflow-y: auto;
             border-right: 1px solid rgba(77, 208, 193, 0.3);
-            transition: all 0.3s ease;
             animation: slideInLeft 0.5s ease-out;
         }
 
@@ -220,10 +167,8 @@
             padding-left: 12px;
         }
 
-        /* Menu item styling */
         .menu-item {
             margin-bottom: 8px;
-            animation: slideInLeft 0.4s ease-out backwards;
         }
 
         .menu-header {
@@ -235,13 +180,11 @@
             padding: 12px 15px;
             cursor: pointer;
             transition: all 0.25s ease;
-            backdrop-filter: blur(5px);
         }
 
         .menu-header:hover {
             background: #2a9d8f;
             transform: translateX(5px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
         .menu-title {
@@ -276,14 +219,13 @@
 
         .menu-controls button:hover {
             background: rgba(0,0,0,0.8);
-            transform: scale(1.05);
         }
 
         .delete-btn:hover {
             background: #c0392b !important;
         }
 
-        /* Submenu (point-point kecil) */
+        /* SUBMENU (point kecil untuk SEMUA menu) */
         .submenu {
             margin-left: 25px;
             margin-top: 8px;
@@ -327,12 +269,10 @@
             padding: 4px 8px;
             border-radius: 8px;
             margin-left: 6px;
-            transition: all 0.2s ease;
         }
 
         .submenu-controls button:hover {
             background: #c0392b;
-            transform: scale(1.05);
         }
 
         .add-submenu {
@@ -349,18 +289,15 @@
 
         .add-submenu:hover {
             background: #2a9d8f;
-            border: 1px solid #4dc7bc;
-            transform: scale(1.02);
         }
 
-        /* ============ MAIN CONTENT ============ */
+        /* CONTENT */
         .content {
             flex: 1;
             padding: 35px;
             background: rgba(0, 30, 35, 0.4);
             backdrop-filter: blur(6px);
             animation: slideInRight 0.5s ease-out;
-            transition: all 0.3s ease;
         }
 
         textarea {
@@ -380,7 +317,6 @@
             outline: none;
             border-color: #7ae9df;
             box-shadow: 0 0 20px rgba(77, 208, 193, 0.3);
-            transform: scale(1.01);
         }
 
         button {
@@ -401,10 +337,6 @@
             box-shadow: 0 6px 20px rgba(31, 138, 130, 0.4);
         }
 
-        button:active {
-            transform: translateY(1px);
-        }
-
         .global-actions {
             margin-top: 25px;
             padding-top: 20px;
@@ -413,10 +345,8 @@
 
         .global-actions button {
             width: 100%;
-            background: rgba(31, 138, 130, 0.7);
         }
 
-        /* Scrollbar custom */
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -431,32 +361,24 @@
             border-radius: 10px;
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: #7ae9df;
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
-            .sidebar { width: 260px; }
+            .sidebar { width: 280px; }
             .content { padding: 20px; }
-            .login-box { width: 90%; margin: 0 20px; }
         }
     </style>
 </head>
 <body>
 
-<!-- LOGIN FORM -->
 <div id="loginScreen">
     <div class="login-box">
-        <h2>✨Master Hans✨</h2>
-        <input type="text" id="userId" placeholder="ID" autocomplete="off">
+        <h2>✨ MASTER HANS ✨</h2>
+        <input type="text" id="userId" placeholder="ID">
         <input type="password" id="userPass" placeholder="Password">
         <button onclick="doLogin()">🔓 MASUK</button>
         <div id="loginError" class="error"></div>
     </div>
 </div>
 
-<!-- MAIN APP -->
 <div id="mainApp" style="display: none;">
     <div class="app">
         <div class="sidebar">
@@ -468,11 +390,11 @@
         </div>
         <div class="content">
             <div id="contentArea">
-                <textarea id="notepadText" placeholder="Tulis catatan di sini..."></textarea>
+                <textarea id="mainEditor" placeholder="Pilih menu di samping kiri..."></textarea>
             </div>
             <div>
-                <button onclick="saveData()">💾 SAVE</button>
-                <button onclick="undoData()">↩️ UNDO</button>
+                <button onclick="saveData()">💾 Save</button>
+                <button onclick="undoData()">↩️ Undo</button>
             </div>
         </div>
     </div>
@@ -480,56 +402,64 @@
 
 <script>
     // ==================== DATA STRUCTURE ====================
+    // Setiap menu bisa memiliki subitems (point-point kecil)
     let menus = [
         { 
-            name: "notepad", 
+            id: "notepad",
             display: "📝 Notepad", 
             type: "editor",
-            content: ""
+            content: "",
+            subitems: []  // point-point kecil di dalam Notepad
         },
         { 
-            name: "hotkeys", 
+            id: "hotkeys", 
             display: "⚡ Hotkeys", 
             type: "text",
-            content: "✨ CTRL + S = Save\n✨ CTRL + Z = Undo\n✨ Klik ↑↓ untuk pindah menu\n✨ Klik 🗑️ untuk hapus menu\n✨ Klik + untuk tambah point kecil"
+            content: "✨ CTRL + S = Save\n✨ CTRL + Z = Undo\n✨ Klik ↑↓ untuk pindah menu\n✨ Klik 🗑️ untuk hapus menu\n✨ Klik + untuk tambah point kecil",
+            subitems: []
         },
         { 
-            name: "todo", 
+            id: "todo", 
             display: "✅ To Do List", 
             type: "todo",
-            content: "[]"
+            content: "[]",
+            subitems: []
         },
         { 
-            name: "daftar_akun", 
+            id: "daftar_akun", 
             display: "📂 Daftar Akun", 
             type: "submenu_parent",
-            content: "[]",
+            content: "",
             subitems: [
-                { id: "akun_bank", display: "🔹 Akun Bank", content: "" },
-                { id: "akun_email", display: "🔹 Akun Email", content: "" },
-                { id: "akun_medsos", display: "🔹 Media Sosial", content: "" }
+                { id: "bank", display: "🔹 Akun Bank", content: "" },
+                { id: "email", display: "🔹 Akun Email", content: "" },
+                { id: "medsos", display: "🔹 Media Sosial", content: "" }
             ]
         }
     ];
     
     let currentMenu = null;
-    let currentSubmenu = null;
+    let currentSubmenu = null;  // point kecil yang sedang aktif
     let historyData = [];
     
     // ==================== SAVE & LOAD ====================
     function saveAllData() {
-        localStorage.setItem("my_menus_v3", JSON.stringify(menus));
+        localStorage.setItem("multi_submenu_v1", JSON.stringify(menus));
     }
     
     function loadAllData() {
-        let saved = localStorage.getItem("my_menus_v3");
+        let saved = localStorage.getItem("multi_submenu_v1");
         if(saved) {
             menus = JSON.parse(saved);
         }
+        // Pastikan setiap menu punya subitems
         menus.forEach(menu => {
             if(!menu.type) menu.type = "editor";
             if(!menu.content) menu.content = "";
-            if(menu.type === "submenu_parent" && !menu.subitems) menu.subitems = [];
+            if(!menu.subitems) menu.subitems = [];
+            if(menu.type === "todo" && typeof menu.content !== "string") {
+                menu.content = JSON.stringify(menu.content || []);
+            }
         });
         renderSidebar();
     }
@@ -547,8 +477,8 @@
         menus.forEach((menu, idx) => {
             const menuDiv = document.createElement("div");
             menuDiv.className = "menu-item";
-            menuDiv.style.animationDelay = `${idx * 0.05}s`;
             
+            // Header menu utama
             const header = document.createElement("div");
             header.className = "menu-header";
             
@@ -599,72 +529,72 @@
             header.appendChild(controls);
             menuDiv.appendChild(header);
             
-            if(menu.type === "submenu_parent") {
-                const submenuDiv = document.createElement("div");
-                submenuDiv.className = "submenu";
-                submenuDiv.id = `submenu_${idx}`;
-                
-                if(menu.subitems) {
-                    menu.subitems.forEach((sub, subIdx) => {
-                        const subItem = document.createElement("div");
-                        subItem.className = "submenu-item";
-                        
-                        const subTitle = document.createElement("div");
-                        subTitle.className = "item-title";
-                        subTitle.innerHTML = sub.display;
-                        subTitle.onclick = () => openSubmenu(menu, subIdx);
-                        
-                        const subControls = document.createElement("div");
-                        subControls.className = "submenu-controls";
-                        
-                        const delSubBtn = document.createElement("button");
-                        delSubBtn.innerHTML = "🗑️";
-                        delSubBtn.onclick = (e) => {
-                            e.stopPropagation();
-                            if(confirm(`Hapus point "${sub.display}"?`)) {
-                                menu.subitems.splice(subIdx, 1);
-                                if(menu.subitems.length === 0) menu.content = "[]";
-                                else menu.content = JSON.stringify(menu.subitems.map(s => s.display));
-                                saveAllData();
-                                renderSidebar();
-                                if(currentSubmenu === sub) {
-                                    currentSubmenu = null;
-                                    document.getElementById("contentArea").innerHTML = "<div style='color:white; text-align:center; padding:40px;'>✨ Pilih menu di samping kiri ✨</div>";
-                                }
+            // SUBMENU (point-point kecil) untuk SEMUA menu
+            const submenuDiv = document.createElement("div");
+            submenuDiv.className = "submenu";
+            submenuDiv.id = `submenu_${idx}`;
+            
+            // Render subitems (point kecil) jika ada
+            if(menu.subitems && menu.subitems.length > 0) {
+                menu.subitems.forEach((sub, subIdx) => {
+                    const subItem = document.createElement("div");
+                    subItem.className = "submenu-item";
+                    
+                    const subTitle = document.createElement("div");
+                    subTitle.className = "item-title";
+                    subTitle.innerHTML = sub.display;
+                    subTitle.onclick = () => openSubmenu(menu, subIdx);
+                    
+                    const subControls = document.createElement("div");
+                    subControls.className = "submenu-controls";
+                    
+                    const delSubBtn = document.createElement("button");
+                    delSubBtn.innerHTML = "🗑️";
+                                    delSubBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        if(confirm(`Hapus point "${sub.display}" dari menu ${menu.display}?`)) {
+                            menu.subitems.splice(subIdx, 1);
+                            saveAllData();
+                            renderSidebar();
+                            if(currentSubmenu === sub) {
+                                currentSubmenu = null;
+                                document.getElementById("contentArea").innerHTML = "<div style='color:white; text-align:center; padding:40px;'>✨ Pilih menu atau point di samping kiri ✨</div>";
                             }
-                        };
-                        subControls.appendChild(delSubBtn);
-                        
-                        subItem.appendChild(subTitle);
-                        subItem.appendChild(subControls);
-                        submenuDiv.appendChild(subItem);
-                    });
-                }
-                
-                const addSubBtn = document.createElement("div");
-                addSubBtn.className = "add-submenu";
-                addSubBtn.innerHTML = "+ Tambah Point Kecil";
-                addSubBtn.onclick = () => tambahSubmenu(menu);
-                submenuDiv.appendChild(addSubBtn);
-                
-                menuDiv.appendChild(submenuDiv);
-                
-                header.onclick = (e) => {
-                    if(e.target.closest('.menu-controls')) return;
-                    submenuDiv.classList.toggle("open");
-                    localStorage.setItem(`submenu_open_${idx}`, submenuDiv.classList.contains("open"));
-                };
-                
-                if(localStorage.getItem(`submenu_open_${idx}`) === "true") {
-                    submenuDiv.classList.add("open");
-                }
+                        }
+                    };
+                    subControls.appendChild(delSubBtn);
+                    
+                    subItem.appendChild(subTitle);
+                    subItem.appendChild(subControls);
+                    submenuDiv.appendChild(subItem);
+                });
+            }
+            
+            // Tombol tambah point kecil untuk menu ini
+            const addSubBtn = document.createElement("div");
+            addSubBtn.className = "add-submenu";
+            addSubBtn.innerHTML = "+ Tambah Point Kecil";
+            addSubBtn.onclick = () => tambahSubmenu(menu);
+            submenuDiv.appendChild(addSubBtn);
+            
+            menuDiv.appendChild(submenuDiv);
+            
+            // Event toggle submenu saat klik header
+            header.onclick = (e) => {
+                if(e.target.closest('.menu-controls')) return;
+                submenuDiv.classList.toggle("open");
+                localStorage.setItem(`submenu_open_${idx}`, submenuDiv.classList.contains("open"));
+            };
+            
+            if(localStorage.getItem(`submenu_open_${idx}`) === "true") {
+                submenuDiv.classList.add("open");
             }
             
             container.appendChild(menuDiv);
         });
     }
     
-    // ==================== FUNGSI MENU ====================
+    // ==================== BUKA MENU UTAMA ====================
     function openMainMenu(menu, idx) {
         currentMenu = menu;
         currentSubmenu = null;
@@ -672,22 +602,17 @@
         const contentDiv = document.getElementById("contentArea");
         
         if(menu.type === "editor") {
-            contentDiv.innerHTML = `<textarea id="mainEditor" placeholder="✏️ Tulis catatan di sini...">${menu.content || ""}</textarea>`;
+            contentDiv.innerHTML = `<textarea id="mainEditor" placeholder="✏️ Tulis catatan untuk ${menu.display}...">${menu.content || ""}</textarea>`;
         } else if(menu.type === "text") {
             contentDiv.innerHTML = `<div style="color:white; font-size:17px; white-space:pre-wrap; line-height:1.8;">${menu.content || ""}</div>`;
         } else if(menu.type === "todo") {
             renderTodo(menu);
-        } else if(menu.type === "submenu_parent") {
-            contentDiv.innerHTML = `<div style="color:#b2f0e8; text-align:center; padding:50px; animation:fadeIn 0.5s;">
-                <h3>📂 ${menu.display}</h3>
-                <p style="margin-top:20px;">✨ Klik salah satu point di sidebar kiri untuk membuka ✨</p>
-                <p style="margin-top:15px;">Atau klik <strong>"+ Tambah Point Kecil"</strong> untuk menambah</p>
-            </div>`;
         } else {
-            contentDiv.innerHTML = `<textarea id="mainEditor" placeholder="Isi untuk ${menu.display}">${menu.content || ""}</textarea>`;
+            contentDiv.innerHTML = `<textarea id="mainEditor" placeholder="✏️ Isi untuk ${menu.display}">${menu.content || ""}</textarea>`;
         }
     }
     
+    // ==================== BUKA POINT KECIL (SUBMENU) ====================
     function openSubmenu(menu, subIdx) {
         currentMenu = menu;
         currentSubmenu = menu.subitems[subIdx];
@@ -696,15 +621,16 @@
         contentDiv.innerHTML = `<textarea id="subEditor" placeholder="📝 Tulis catatan untuk ${currentSubmenu.display}...">${currentSubmenu.content || ""}</textarea>`;
     }
     
+    // ==================== RENDER TO DO LIST ====================
     function renderTodo(menu) {
         let todoList = [];
         try { todoList = JSON.parse(menu.content || "[]"); } catch(e) { todoList = []; }
-        let html = `<div style="animation:fadeIn 0.3s;">
+        let html = `<div>
             <input type="text" id="newTodo" placeholder="📝 Tugas baru..." style="width:70%; padding:12px; border-radius:40px; border:none;">
             <button onclick="addTodoItem()" style="margin-left:10px;">➕ Tambah</button>
             <ul id="todoItems" style="margin-top:25px;">`;
         todoList.forEach((item, idx) => {
-            html += `<li style="color:white; margin:12px 0; padding:8px; background:rgba(255,255,255,0.1); border-radius:12px; display:flex; justify-content:space-between; align-items:center;">
+            html += `<li style="color:white; margin:12px 0; padding:8px; background:rgba(255,255,255,0.1); border-radius:12px; display:flex; justify-content:space-between;">
                         <span>📌 ${item}</span>
                         <button onclick="deleteTodoItem(${idx})" style="margin:0; padding:6px 12px;">❌ Hapus</button>
                     </li>`;
@@ -738,21 +664,23 @@
         }
     }
     
+    // ==================== TAMBAH POINT KECIL (untuk SEMUA menu) ====================
     function tambahSubmenu(menu) {
-        let nama = prompt("Nama point kecil:", "🔹 Akun Baru");
+        let nama = prompt(`Tambah point kecil di menu "${menu.display}":`, "🔹 Point Baru");
         if(nama && nama.trim()) {
             if(!menu.subitems) menu.subitems = [];
             menu.subitems.push({
-                id: "sub_" + Date.now(),
+                id: "sub_" + Date.now() + Math.random(),
                 display: nama.trim(),
                 content: ""
             });
-            menu.content = JSON.stringify(menu.subitems.map(s => s.display));
             saveAllData();
             renderSidebar();
+            showToast(`✅ Point "${nama.trim()}" ditambahkan ke ${menu.display}`);
         }
     }
     
+    // ==================== FUNGSI MOVE & DELETE MENU ====================
     function moveMenuUp(idx) {
         if(idx > 0) {
             [menus[idx-1], menus[idx]] = [menus[idx], menus[idx-1]];
@@ -771,7 +699,7 @@
     
     function konfirmasiHapusMenu(idx) {
         let menuNama = menus[idx].display;
-        let konfirmasi = confirm(`⚠️ Yakin ingin menghapus menu "${menuNama}"?\n\nData di dalamnya akan hilang permanen!`);
+        let konfirmasi = confirm(`⚠️ Yakin ingin menghapus menu "${menuNama}"?\n\nSEMUA point kecil di dalamnya juga akan hilang!`);
         if(konfirmasi) {
             menus.splice(idx, 1);
             saveAllData();
@@ -787,16 +715,18 @@
         let nama = prompt("Nama menu baru:", "Menu Baru");
         if(nama && nama.trim()) {
             menus.push({
-                name: "menu_" + Date.now(),
+                id: "menu_" + Date.now(),
                 display: nama.trim(),
                 type: "editor",
-                content: ""
+                content: "",
+                subitems: []
             });
             saveAllData();
             renderSidebar();
         }
     }
     
+    // ==================== SAVE & UNDO ====================
     function saveData() {
         if(currentSubmenu && currentMenu) {
             let editor = document.getElementById("subEditor");
@@ -841,6 +771,7 @@
         setTimeout(() => toast.remove(), 2000);
     }
     
+    // ==================== LOGIN ====================
     function doLogin() {
         let id = document.getElementById("userId").value;
         let pass = document.getElementById("userPass").value;
@@ -856,6 +787,7 @@
         }
     }
     
+    // Keyboard shortcuts
     document.addEventListener("keydown", function(e) {
         if(document.getElementById("mainApp").style.display === "block") {
             if(e.ctrlKey && e.key === 's') {
